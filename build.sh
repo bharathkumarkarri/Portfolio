@@ -8,10 +8,16 @@ python manage.py collectstatic --noinput
 
 python manage.py shell -c "
 from django.contrib.auth.models import User
+
+print('Checking superuser...')
+
 if not User.objects.filter(username='admin').exists():
     User.objects.create_superuser(
-        'Pavan',
-        'bharath.karri23@gmail.com',
-        'Pavan@1234'
+        username='admin',
+        email='admin@example.com',
+        password='Admin@123'
     )
+    print('Superuser created!')
+else:
+    print('Superuser already exists!')
 "
