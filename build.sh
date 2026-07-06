@@ -6,18 +6,18 @@ python manage.py migrate
 
 python manage.py collectstatic --noinput
 
-python manage.py shell -c "
+python manage.py shell <<EOF
 from django.contrib.auth.models import User
 
-print('Checking superuser...')
+# Delete existing admin user
+User.objects.filter(username="admin").delete()
 
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser(
-        username='jayaram',
-        email='bharath.karri23@gmail.com',
-        password='Admin@123'
-    )
-    print('Superuser created!')
-else:
-    print('Superuser already exists!')
-"
+# Create new admin user
+User.objects.create_superuser(
+    username="admin",
+    email="admin@example.com",
+    password="Admin@123"
+)
+
+print("✅ Admin user created successfully.")
+EOF
