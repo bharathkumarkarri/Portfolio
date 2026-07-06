@@ -1,6 +1,7 @@
 from django.db import models
 import os
 from cloudinary.models import CloudinaryField
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 
 # Create your models here.
 
@@ -23,7 +24,8 @@ class Job(models.Model):
         return self.title
     
 class Resume(models.Model):
-    file = models.FileField(upload_to='resumes/')
+    # file = models.FileField(upload_to='resumes/')
+    file = models.FileField(upload_to='resumes/', storage=RawMediaCloudinaryStorage())
     uploaded_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
@@ -31,9 +33,13 @@ class Resume(models.Model):
         old_resume = Resume.objects.exclude(pk=self.pk).first()
 
         if old_resume:
-            # Delete the old file from disk
-            if old_resume.file and os.path.isfile(old_resume.file.path):
-                os.remove(old_resume.file.path)
+            # # Delete the old file from disk
+            # if old_resume.file and os.path.isfile(old_resume.file.path):
+            #     os.remove(old_resume.file.path)
+            
+            # Delete the old file from storage (Cloudinary or local)
+            if old_resume.file:
+                old_resume.file.delete(save=False)
 
             # Delete the old database record
             old_resume.delete()
