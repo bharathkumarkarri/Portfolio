@@ -1,5 +1,6 @@
 from django.db import models
 import os
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -10,7 +11,8 @@ class Technology(models.Model):
         return self.name
 
 class Job(models.Model):
-    image = models.ImageField(upload_to='images/')
+    # image = models.ImageField(upload_to='images/')
+    image = CloudinaryField('image')
     title = models.CharField(max_length=200)
     tech = models.ManyToManyField(Technology)
     summary = models.TextField(max_length=1000)
