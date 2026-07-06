@@ -1,0 +1,440 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Karri Bharath Kumar | Portfolio</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link
+      href="{% static 'css/bootstrap.min.css' %}"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+      :root {
+        --bg-color: #faf7f2;
+        --card-bg: #ffffff;
+        --card-border: rgba(111, 78, 55, 0.08);
+        --text-primary: #3e2723;
+        --text-secondary: #795548;
+        --accent-gradient: linear-gradient(135deg, #8d6e63 0%, #b08968 50%, #ddb892 100%);
+        --glow-primary: rgba(141, 110, 99, 0.06);
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Glow background blobs */
+      body::before {
+        content: '';
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        top: -150px;
+        left: -150px;
+        background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
+        z-index: -1;
+        pointer-events: none;
+      }
+      
+      body::after {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        bottom: 10%;
+        right: -100px;
+        background: radial-gradient(circle, rgba(221, 184, 146, 0.05) 0%, transparent 70%);
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Navbar */
+      .navbar-glass {
+        background: rgba(250, 247, 242, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      .navbar-glass .nav-link {
+        color: var(--text-secondary) !important;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .navbar-glass .nav-link:hover, .navbar-glass .nav-link.active {
+        color: #8d6e63 !important;
+      }
+
+      /* Logo Brand */
+      .logo-badge {
+        background: var(--accent-gradient);
+        color: white;
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 800;
+        box-shadow: 0 4px 10px rgba(141, 110, 99, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      .navbar-brand:hover .logo-badge {
+        transform: rotate(-5deg) scale(1.05);
+      }
+
+      .logo-text {
+        color: var(--text-primary);
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+
+      /* Hero Section */
+      .hero-section {
+        padding: 8rem 0 4rem;
+        position: relative;
+      }
+
+      .avatar-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 2rem;
+      }
+
+      .avatar-img {
+        width: 160px;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #ffffff;
+        box-shadow: 0 10px 25px rgba(111, 78, 55, 0.08);
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .avatar-container::after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-radius: 50%;
+        background: var(--accent-gradient);
+        z-index: -1;
+        opacity: 0.3;
+        filter: blur(8px);
+        transition: opacity 0.5s;
+      }
+
+      .avatar-container:hover .avatar-img {
+        transform: scale(1.05) rotate(2deg);
+      }
+
+      .avatar-container:hover::after {
+        opacity: 0.6;
+      }
+
+      .gradient-text {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .btn-gradient {
+        background: var(--accent-gradient);
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(141, 110, 99, 0.2);
+      }
+
+      .btn-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(141, 110, 99, 0.35);
+        color: white;
+      }
+
+      .btn-glass {
+        background: rgba(111, 78, 55, 0.04);
+        color: var(--text-primary);
+        border: 1px solid var(--card-border);
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-glass:hover {
+        background: rgba(111, 78, 55, 0.08);
+        border-color: rgba(111, 78, 55, 0.12);
+        color: var(--text-primary);
+        transform: translateY(-2px);
+      }
+
+      /* Projects Section */
+      .section-title {
+        position: relative;
+        display: inline-block;
+        padding-bottom: 10px;
+        margin-bottom: 3rem;
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent-gradient);
+        border-radius: 2px;
+      }
+
+      .project-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0 4px 20px rgba(111, 78, 55, 0.02);
+      }
+
+      .project-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(141, 110, 99, 0.2);
+        box-shadow: 0 15px 35px rgba(111, 78, 55, 0.08), 0 0 15px rgba(141, 110, 99, 0.03);
+      }
+
+      .card-img-wrapper {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 16/10;
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      .card-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      .project-card:hover .card-img-wrapper img {
+        transform: scale(1.08);
+      }
+
+      .badge-tech {
+        background: rgba(141, 110, 99, 0.06);
+        color: #8d6e63;
+        border: 1px solid rgba(141, 110, 99, 0.1);
+        font-weight: 600;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--card-border);
+        background-color: #080b12 !important;
+      }
+
+      .footer-social-link {
+        font-size: 1.25rem;
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+      }
+
+      .footer-social-link:hover {
+        background: var(--accent-gradient);
+        color: white;
+        transform: translateY(-3px);
+        border-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-glass fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
+          <span class="logo-badge me-2">BK</span>
+          <span class="logo-text">Karri Bharath Kumar</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#projects">Projects</a>
+            </li>
+            <li class="nav-item ms-lg-3">
+              <a href="mailto:bharath.karri23@gmail.com" class="btn btn-glass btn-sm px-4">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="hero-section text-center">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="avatar-container">
+                <img src="{% static 'pavan.jpg' %}" alt="Karri Bharath Kumar" class="avatar-img" />
+              </div>
+              <h1 class="display-4 fw-extrabold mb-3">
+                Hi, I'm <span class="gradient-text">Bharath Kumar</span> 👋
+              </h1>
+              <h3 class="h4 text-secondary mb-4">
+                Full Stack Developer | Python | Django
+              </h3>
+              <p class="lead text-secondary mx-auto mb-5" style="max-width: 650px;">
+                Computer Science undergraduate passionate about AI-powered software engineering, backend systems, and building scalable, intelligent web applications.
+              </p>
+              <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="mailto:bharath.karri23@gmail.com" class="btn btn-gradient">
+                  <i class="bi bi-envelope-fill me-2"></i>Email Me
+                </a>
+                {% if resumes %}
+                <a href="{{ resumes.file.url }}" class="btn btn-glass" target="_blank">
+                  <i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>My Resume
+                </a>
+                {% else %}
+                <button class="btn btn-glass" disabled>
+                  <i class="bi bi-file-earmark-pdf-fill me-2"></i>No Resume Available
+                </button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="py-5">
+        <div class="container">
+          <div class="text-center">
+            <h2 class="section-title fw-bold text-uppercase tracking-wider">My Projects</h2>
+          </div>
+
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+            {% for job in jobs %}
+            <div class="col">
+              <div class="card h-100 project-card">
+                <div class="card-img-wrapper">
+                  <img src="{{ job.image.url }}" alt="{{ job.title }}" />
+                </div>
+                <div class="card-body d-flex flex-column p-4">
+                  <h5 class="card-title fw-bold mb-3">{{ job.title }}</h5>
+                  
+                  <!-- Tech stack badges -->
+                  {% if job.tech.all %}
+                  <div class="d-flex flex-wrap gap-2 mb-3">
+                    {% for technology in job.tech.all %}
+                    <span class="badge badge-tech">{{ technology.name }}</span>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+
+                  <p class="card-text text-secondary mb-4 flex-grow-1">
+                    {{ job.summary|truncatewords:25 }}
+                  </p>
+                  
+                  <a href="{% url 'project' job_id=job.id %}" class="btn btn-glass w-100 mt-auto">
+                    View Project <i class="bi bi-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+              <p class="text-secondary">No projects added yet.</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+      <div class="container text-center">
+        <h4 class="fw-bold mb-2 text-white">Bharath Kumar Karri</h4>
+        <p class="text-secondary mb-4">Full Stack Developer | Python | Django</p>
+        
+        <div class="d-flex justify-content-center gap-3 mb-4">
+          <a href="https://www.linkedin.com/in/bharath-kumar-karri/" target="_blank" class="footer-social-link" title="LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://github.com/bharathkumarkarri" target="_blank" class="footer-social-link" title="GitHub">
+            <i class="bi bi-github"></i>
+          </a>
+          <a href="mailto:bharath.karri23@gmail.com" class="footer-social-link" title="Email">
+            <i class="bi bi-envelope-fill"></i>
+          </a>
+          <a href="https://bharath-kumar-portfolio.framer.website/" target="_blank" class="footer-social-link" title="Website">
+            <i class="bi bi-globe"></i>
+          </a>
+        </div>
+        
+        <hr class="border-secondary my-4" style="opacity: 0.2;" />
+        <p class="text-secondary mb-0"><small>&copy; 2026 Bharath Kumar Karri. All Rights Reserved.</small></p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'popper.min.js' %}"></script>
+    <script src="{% static 'jquery-4.0.0.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

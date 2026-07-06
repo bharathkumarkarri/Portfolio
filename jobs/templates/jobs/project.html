@@ -1,0 +1,268 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ job.title }} | Project Details</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link
+      href="{% static 'css/bootstrap.min.css' %}"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+      :root {
+        --bg-color: #faf7f2;
+        --card-bg: #ffffff;
+        --card-border: rgba(111, 78, 55, 0.08);
+        --text-primary: #3e2723;
+        --text-secondary: #795548;
+        --accent-gradient: linear-gradient(135deg, #8d6e63 0%, #b08968 50%, #ddb892 100%);
+        --glow-primary: rgba(141, 110, 99, 0.06);
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Glow background blobs */
+      body::before {
+        content: '';
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        top: -150px;
+        left: -150px;
+        background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Navbar */
+      .navbar-glass {
+        background: rgba(250, 247, 242, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      /* Logo Brand */
+      .logo-badge {
+        background: var(--accent-gradient);
+        color: white;
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 800;
+        box-shadow: 0 4px 10px rgba(141, 110, 99, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      .navbar-brand:hover .logo-badge {
+        transform: rotate(-5deg) scale(1.05);
+      }
+
+      .logo-text {
+        color: var(--text-primary);
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+
+      /* Details Card */
+      .detail-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(111, 78, 55, 0.05);
+        padding: 2.5rem;
+        margin-top: 7rem;
+      }
+
+      .project-image-wrapper {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 10px 25px rgba(111, 78, 55, 0.05);
+      }
+
+      .project-image-wrapper img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s ease;
+      }
+
+      .project-image-wrapper:hover img {
+        transform: scale(1.03);
+      }
+
+      .gradient-text {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .badge-tech {
+        background: rgba(141, 110, 99, 0.06);
+        color: #8d6e63;
+        border: 1px solid rgba(141, 110, 99, 0.1);
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+      }
+
+      .btn-gradient {
+        background: var(--accent-gradient);
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(141, 110, 99, 0.2);
+      }
+
+      .btn-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(141, 110, 99, 0.35);
+        color: white;
+      }
+
+      .btn-glass {
+        background: rgba(111, 78, 55, 0.04);
+        color: var(--text-primary);
+        border: 1px solid var(--card-border);
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-glass:hover {
+        background: rgba(111, 78, 55, 0.08);
+        border-color: rgba(111, 78, 55, 0.12);
+        color: var(--text-primary);
+        transform: translateY(-2px);
+      }
+
+      .btn-outline-glass {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 1px solid var(--card-border);
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-outline-glass:hover {
+        background: rgba(111, 78, 55, 0.04);
+        color: var(--text-primary);
+        transform: translateY(-2px);
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--card-border);
+        background-color: #080b12 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-glass fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="{% url 'homepage' %}">
+          <span class="logo-badge me-2">BK</span>
+          <span class="logo-text">Karri Bharath Kumar</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="container pb-5">
+      <div class="detail-card">
+        <div class="row g-5">
+          <!-- Left side: Project Image -->
+          <div class="col-lg-6">
+            <div class="project-image-wrapper">
+              <img src="{{ job.image.url }}" alt="{{ job.title }}" class="img-fluid" />
+            </div>
+          </div>
+          
+          <!-- Right side: Info and Tech Stack -->
+          <div class="col-lg-6 d-flex flex-column justify-content-between">
+            <div>
+              <a href="{% url 'homepage' %}" class="btn btn-outline-glass btn-sm mb-4">
+                <i class="bi bi-arrow-left me-2"></i>Back to Projects
+              </a>
+              <h1 class="display-6 fw-extrabold mb-3">{{ job.title }}</h1>
+              
+              <h4 class="h6 text-secondary text-uppercase tracking-wider mb-3">About the Project</h4>
+              <p class="lead text-secondary mb-4" style="line-height: 1.7; font-size: 1.1rem;">
+                {{ job.summary }}
+              </p>
+              
+              {% if job.tech.all %}
+              <h4 class="h6 text-secondary text-uppercase tracking-wider mb-3">Technologies Used</h4>
+              <div class="d-flex flex-wrap gap-2 mb-5">
+                {% for technology in job.tech.all %}
+                <span class="badge badge-tech">{{ technology.name }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="d-flex gap-3 flex-wrap">
+              {% if job.gitlink %}
+              <a href="{{ job.gitlink }}" target="_blank" class="btn btn-glass">
+                <i class="bi bi-github me-2"></i>GitHub Repository
+              </a>
+              {% endif %}
+              
+              {% if job.link %}
+              <a href="{{ job.link }}" target="_blank" class="btn btn-gradient">
+                <i class="bi bi-box-arrow-up-right me-2"></i>Live Demo
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+      <div class="container text-center">
+        <p class="text-secondary mb-0"><small>&copy; 2026 Bharath Kumar Karri. All Rights Reserved.</small></p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'popper.min.js' %}"></script>
+    <script src="{% static 'jquery-4.0.0.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  </body>
+</html>
