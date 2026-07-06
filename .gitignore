@@ -1,22 +1,2 @@
 # Environment variables
 .env
-
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-
-# Django
-db.sqlite3
-*.log
-media/
-staticfiles/
-
-# Virtual environment
-venv/
-env/
-.venv/
-
-# IDE
-.vscode/
-.idea/
