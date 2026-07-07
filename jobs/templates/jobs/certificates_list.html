@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="All Certificates of {{ profile.name }}">
+    <title>All Certificates | {{ profile.name }}</title>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Library CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
+    <!-- Background Glowing Blobs -->
+    <div class="glow-blob blob-1" id="spotlight-blob"></div>
+    <div class="glow-blob blob-3"></div>
+
+    <!-- Sticky Navbar -->
+    <header class="navbar-header scrolled">
+        <div class="container navbar-container">
+            <a href="{% url 'homepage' %}" class="navbar-logo" id="nav-logo-btn">
+                <span>KB</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="navbar-menu-wrapper" id="navbar-menu">
+                <nav class="navbar-nav-list">
+                    <a href="{% url 'homepage' %}#home" class="navbar-nav-link">Home</a>
+                    <a href="{% url 'homepage' %}#about" class="navbar-nav-link">About</a>
+                    <a href="{% url 'homepage' %}#skills" class="navbar-nav-link">Skills</a>
+                    <a href="{% url 'homepage' %}#projects" class="navbar-nav-link">Projects</a>
+                    <a href="{% url 'homepage' %}#experience" class="navbar-nav-link">Experience</a>
+                    <a href="{% url 'homepage' %}#contact" class="navbar-nav-link">Contact</a>
+                </nav>
+
+                {% if resumes %}
+                <a href="{{ resumes.file.url }}" target="_blank" class="btn-premium" style="padding: 0.5rem 1.5rem; font-size: 0.85rem;">
+                    <i class="fa-solid fa-download"></i> Resume
+                </a>
+                {% endif %}
+
+            </div>
+
+            <button class="mobile-hamburger" aria-label="Toggle Menu" id="mobile-hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main List content -->
+    <main style="padding-top: 100px; min-height: calc(100vh - 200px);">
+        <!-- List Hero Title -->
+        <section class="list-hero-section">
+            <div class="container">
+                <h1 class="list-hero-title gradient-text">Credentials & Certificates</h1>
+                <p class="list-hero-desc">Verified certifications, achievements, and courses I have completed.</p>
+            </div>
+        </section>
+
+        <!-- Certificates Grid -->
+        <section class="container" style="margin-bottom: 80px;">
+            <div class="projects-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
+                {% for cert in certificates %}
+                <div class="glass-card certificate-card" style="padding: 24px;">
+                    <div class="certificate-ribbon"><i class="fa-solid fa-award" style="font-size: 1.1rem;"></i></div>
+                    <div class="certificate-icon-box" style="width: 50px; height: 50px; font-size: 1.4rem;">
+                        <i class="fa-regular fa-file-pdf"></i>
+                    </div>
+                    <div class="certificate-content" style="margin-top: 10px;">
+                        <h4 class="certificate-title" style="font-size: 1.1rem; line-height: 1.4; margin-bottom: 6px;">{{ cert.title }}</h4>
+                        <span class="certificate-organization" style="font-size: 0.9rem; margin-bottom: 12px;">{{ cert.issuer }}</span>
+                        
+                        <div class="certificate-meta" style="border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px; margin-top: 12px;">
+                            <span style="font-weight: 500;">Year: {{ cert.year }}</span>
+                            {% if cert.verification_link %}
+                            <a href="{{ cert.verification_link }}" target="_blank" class="btn-premium" style="padding: 0.4rem 1.2rem; font-size: 0.75rem; border-radius: 30px;">
+                                Verify <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-secondary text-center" style="width: 100%;">No certificates added yet.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-wrapper">
+        <div class="container footer-bottom">
+            <p>&copy; <span id="copyright-year">2026</span> {{ profile.name }}. All rights reserved.</p>
+            <a href="{% url 'homepage' %}" class="footer-link">Back to Home</a>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top-btn" aria-label="Back to Top" id="back-to-top-button">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Theme JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('copyright-year').innerText = new Date().getFullYear();
+
+
+
+            // Mobile menu toggle
+            const hamburger = document.getElementById("mobile-hamburger-btn");
+            const menu = document.getElementById("navbar-menu");
+
+            if (hamburger && menu) {
+                hamburger.addEventListener("click", function() {
+                    hamburger.classList.toggle("active");
+                    menu.classList.toggle("active");
+                });
+            }
+
+            // Scroll events (Progress Bar, Back-to-Top)
+            const progressBar = document.querySelector(".scroll-progress-bar");
+            const backToTopBtn = document.getElementById("back-to-top-button");
+
+            window.addEventListener("scroll", function() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                
+                if (progressBar) {
+                    progressBar.style.width = scrollPercent + "%";
+                }
+                
+                if (backToTopBtn) {
+                    if (scrollTop > 400) {
+                        backToTopBtn.classList.add("active");
+                    } else {
+                        backToTopBtn.classList.remove("active");
+                    }
+                }
+            });
+
+            // Mouse Tracking Spotlight
+            const blob = document.getElementById("spotlight-blob");
+            if (blob) {
+                document.addEventListener("mousemove", function(e) {
+                    const x = e.clientX - 300;
+                    const y = e.clientY - 300;
+                    blob.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                });
+            }
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener("click", function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

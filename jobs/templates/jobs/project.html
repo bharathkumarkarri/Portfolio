@@ -1,268 +1,374 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ job.title }} | Project Details</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ project.title }} | Project Details - {{ profile.name }}">
+    <title>{{ project.title }} | Project Details</title>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts: Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap CSS -->
-    <link
-      href="{% static 'css/bootstrap.min.css' %}"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- AOS Library CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-    <style>
-      :root {
-        --bg-color: #faf7f2;
-        --card-bg: #ffffff;
-        --card-border: rgba(111, 78, 55, 0.08);
-        --text-primary: #3e2723;
-        --text-secondary: #795548;
-        --accent-gradient: linear-gradient(135deg, #8d6e63 0%, #b08968 50%, #ddb892 100%);
-        --glow-primary: rgba(141, 110, 99, 0.06);
-      }
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
 
-      body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-primary);
-        min-height: 100vh;
-        overflow-x: hidden;
-        position: relative;
-      }
-
-      /* Glow background blobs */
-      body::before {
-        content: '';
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        top: -150px;
-        left: -150px;
-        background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
-        z-index: -1;
-        pointer-events: none;
-      }
-
-      /* Navbar */
-      .navbar-glass {
-        background: rgba(250, 247, 242, 0.8);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--card-border);
-      }
-
-      /* Logo Brand */
-      .logo-badge {
-        background: var(--accent-gradient);
-        color: white;
-        width: 36px;
-        height: 36px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        font-size: 0.95rem;
-        font-weight: 800;
-        box-shadow: 0 4px 10px rgba(141, 110, 99, 0.2);
-        transition: transform 0.3s ease;
-      }
-
-      .navbar-brand:hover .logo-badge {
-        transform: rotate(-5deg) scale(1.05);
-      }
-
-      .logo-text {
-        color: var(--text-primary);
-        font-weight: 800;
-        letter-spacing: -0.5px;
-      }
-
-      /* Details Card */
-      .detail-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 24px;
-        box-shadow: 0 20px 40px rgba(111, 78, 55, 0.05);
-        padding: 2.5rem;
-        margin-top: 7rem;
-      }
-
-      .project-image-wrapper {
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid var(--card-border);
-        box-shadow: 0 10px 25px rgba(111, 78, 55, 0.05);
-      }
-
-      .project-image-wrapper img {
-        width: 100%;
-        height: auto;
-        display: block;
-        transition: transform 0.5s ease;
-      }
-
-      .project-image-wrapper:hover img {
-        transform: scale(1.03);
-      }
-
-      .gradient-text {
-        background: var(--accent-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 800;
-      }
-
-      .badge-tech {
-        background: rgba(141, 110, 99, 0.06);
-        color: #8d6e63;
-        border: 1px solid rgba(141, 110, 99, 0.1);
-        font-weight: 600;
-        padding: 0.5rem 1rem;
-        border-radius: 50px;
-        font-size: 0.85rem;
-      }
-
-      .btn-gradient {
-        background: var(--accent-gradient);
-        color: white;
-        border: none;
-        padding: 0.75rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(141, 110, 99, 0.2);
-      }
-
-      .btn-gradient:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(141, 110, 99, 0.35);
-        color: white;
-      }
-
-      .btn-glass {
-        background: rgba(111, 78, 55, 0.04);
-        color: var(--text-primary);
-        border: 1px solid var(--card-border);
-        padding: 0.75rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-
-      .btn-glass:hover {
-        background: rgba(111, 78, 55, 0.08);
-        border-color: rgba(111, 78, 55, 0.12);
-        color: var(--text-primary);
-        transform: translateY(-2px);
-      }
-
-      .btn-outline-glass {
-        background: transparent;
-        color: var(--text-secondary);
-        border: 1px solid var(--card-border);
-        padding: 0.75rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-
-      .btn-outline-glass:hover {
-        background: rgba(111, 78, 55, 0.04);
-        color: var(--text-primary);
-        transform: translateY(-2px);
-      }
-
-      /* Footer */
-      footer {
-        border-top: 1px solid var(--card-border);
-        background-color: #080b12 !important;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light navbar-glass fixed-top">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold" href="{% url 'homepage' %}">
-          <span class="logo-badge me-2">BK</span>
-          <span class="logo-text">Karri Bharath Kumar</span>
-        </a>
-      </div>
-    </nav>
-
-    <div class="container pb-5">
-      <div class="detail-card">
-        <div class="row g-5">
-          <!-- Left side: Project Image -->
-          <div class="col-lg-6">
-            <div class="project-image-wrapper">
-              <img src="{{ job.image.url }}" alt="{{ job.title }}" class="img-fluid" />
-            </div>
-          </div>
-          
-          <!-- Right side: Info and Tech Stack -->
-          <div class="col-lg-6 d-flex flex-column justify-content-between">
-            <div>
-              <a href="{% url 'homepage' %}" class="btn btn-outline-glass btn-sm mb-4">
-                <i class="bi bi-arrow-left me-2"></i>Back to Projects
-              </a>
-              <h1 class="display-6 fw-extrabold mb-3">{{ job.title }}</h1>
-              
-              <h4 class="h6 text-secondary text-uppercase tracking-wider mb-3">About the Project</h4>
-              <p class="lead text-secondary mb-4" style="line-height: 1.7; font-size: 1.1rem;">
-                {{ job.summary }}
-              </p>
-              
-              {% if job.tech.all %}
-              <h4 class="h6 text-secondary text-uppercase tracking-wider mb-3">Technologies Used</h4>
-              <div class="d-flex flex-wrap gap-2 mb-5">
-                {% for technology in job.tech.all %}
-                <span class="badge badge-tech">{{ technology.name }}</span>
-                {% endfor %}
-              </div>
-              {% endif %}
-            </div>
-
-            <div class="d-flex gap-3 flex-wrap">
-              {% if job.gitlink %}
-              <a href="{{ job.gitlink }}" target="_blank" class="btn btn-glass">
-                <i class="bi bi-github me-2"></i>GitHub Repository
-              </a>
-              {% endif %}
-              
-              {% if job.link %}
-              <a href="{{ job.link }}" target="_blank" class="btn btn-gradient">
-                <i class="bi bi-box-arrow-up-right me-2"></i>Live Demo
-              </a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar"></div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-5 mt-5">
-      <div class="container text-center">
-        <p class="text-secondary mb-0"><small>&copy; 2026 Bharath Kumar Karri. All Rights Reserved.</small></p>
-      </div>
+    <!-- Background Glowing Blobs -->
+    <div class="glow-blob blob-1" id="spotlight-blob"></div>
+    <div class="glow-blob blob-2"></div>
+
+    <!-- Sticky Navbar -->
+    <header class="navbar-header scrolled">
+        <div class="container navbar-container">
+            <a href="{% url 'homepage' %}" class="navbar-logo" id="nav-logo-btn">
+                <span>KB</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="navbar-menu-wrapper" id="navbar-menu">
+                <nav class="navbar-nav-list">
+                    <a href="{% url 'homepage' %}#home" class="navbar-nav-link">Home</a>
+                    <a href="{% url 'homepage' %}#about" class="navbar-nav-link">About</a>
+                    <a href="{% url 'homepage' %}#skills" class="navbar-nav-link">Skills</a>
+                    <a href="{% url 'homepage' %}#projects" class="navbar-nav-link active">Projects</a>
+                    <a href="{% url 'homepage' %}#experience" class="navbar-nav-link">Experience</a>
+                    <a href="{% url 'homepage' %}#contact" class="navbar-nav-link">Contact</a>
+                </nav>
+
+                {% if resumes %}
+                <a href="{{ resumes.file.url }}" target="_blank" class="btn-premium" style="padding: 0.5rem 1.5rem; font-size: 0.85rem;">
+                    <i class="fa-solid fa-download"></i> Resume
+                </a>
+                {% endif %}
+
+            </div>
+
+            <button class="mobile-hamburger" aria-label="Toggle Menu" id="mobile-hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content wrapper -->
+    <main style="padding-top: 100px;">
+        <div class="container project-detail-wrapper" style="margin-bottom: 60px;">
+            
+            <!-- Project Hero Banner -->
+            {% if project.image %}
+            <section class="project-hero glass-card" style="background-image: linear-gradient(rgba(43, 29, 22, 0.85), rgba(43, 29, 22, 0.95)), url('{{ project.image.url }}'); padding: 60px 40px;">
+            {% else %}
+            <section class="project-hero glass-card" style="background-image: linear-gradient(rgba(43, 29, 22, 0.85), rgba(43, 29, 22, 0.95)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop'); padding: 60px 40px;">
+            {% endif %}
+                <div class="project-hero-container">
+                    <div class="project-hero-header">
+                        <span class="project-hero-category">{{ project.title }}</span>
+                        {% if project.is_featured %}
+                        <span class="project-hero-featured"><i class="fa-solid fa-star"></i> Featured Project</span>
+                        {% endif %}
+                    </div>
+                    
+                    <h1 class="project-hero-title">{{ project.title }}</h1>
+                    
+                    {% if project.short_description %}
+                    <p class="project-hero-short-desc">{{ project.short_description }}</p>
+                    {% else %}
+                    <p class="project-hero-short-desc">{{ project.summary }}</p>
+                    {% endif %}
+                    
+                    <!-- Quick Actions Buttons -->
+                    <div class="project-hero-actions">
+                        {% if project.link %}
+                        <a href="{{ project.link }}" target="_blank" class="hero-action-btn live-btn">
+                            <i class="fa-solid fa-laptop"></i> Live Demo
+                        </a>
+                        {% endif %}
+                        
+                        {% if project.gitlink %}
+                        <a href="{{ project.gitlink }}" target="_blank" class="hero-action-btn github-btn">
+                            <i class="fa-brands fa-github"></i> View Code
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Content Section -->
+            <div class="project-main-grid" style="margin-top: 40px;">
+                <!-- Left side detail sections -->
+                <div class="project-content-left">
+                    <!-- Overview -->
+                    <div class="project-section glass-card" data-aos="fade-up">
+                        <h2 class="project-section-title"><i class="fa-solid fa-align-left"></i> Project Overview</h2>
+                        <div class="project-rich-content">
+                            {% if project.overview %}
+                                {{ project.overview|linebreaks }}
+                            {% else %}
+                                {{ project.summary|linebreaks }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Key Features -->
+                    {% if project.features %}
+                    <div class="project-section glass-card" data-aos="fade-up">
+                        <h2 class="project-section-title"><i class="fa-solid fa-star"></i> Key Features</h2>
+                        <div class="project-rich-content">
+                            {{ project.features|safe }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Challenges & Solutions -->
+                    {% if project.challenges %}
+                    <div class="project-section glass-card" data-aos="fade-up">
+                        <h2 class="project-section-title"><i class="fa-solid fa-triangle-exclamation"></i> Challenges & Solutions</h2>
+                        <div class="project-rich-content">
+                            {{ project.challenges|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Right side sidebar info -->
+                <div class="project-content-right">
+                    <!-- Technologies Used -->
+                    <div class="project-sidebar-card glass-card" data-aos="fade-up">
+                        <h3 class="sidebar-title"><i class="fa-solid fa-microchip"></i> Technologies</h3>
+                        <div class="project-tech-list">
+                            {% for tech in project.tech.all %}
+                            <span class="sidebar-tech-badge"><i class="fa-solid fa-circle-check"></i> {{ tech.name }}</span>
+                            {% empty %}
+                            <span class="text-secondary">No tech tags registered.</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Project Metadata Info -->
+                    <div class="project-sidebar-card glass-card" data-aos="fade-up" style="margin-top: 25px;">
+                        <h3 class="sidebar-title"><i class="fa-solid fa-info-circle"></i> Project Metadata</h3>
+                        <ul class="metadata-list">
+                            <li>
+                                <span class="meta-label">Category:</span>
+                                <span class="meta-value">{{ project.title }}</span>
+                            </li>
+                            <li>
+                                <span class="meta-label">Status:</span>
+                                {% if project.status|lower == 'completed' %}
+                                <span class="meta-value status-badge-inline completed">{{ project.status }}</span>
+                                {% else %}
+                                <span class="meta-value status-badge-inline in-progress">{{ project.status }}</span>
+                                {% endif %}
+                            </li>
+                            {% if project.published_date %}
+                            <li>
+                                <span class="meta-label">Published:</span>
+                                <span class="meta-value">{{ project.published_date }}</span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screenshot Gallery -->
+            {% if gallery_images %}
+            <section class="project-gallery-section" data-aos="fade-up" style="margin-top: 40px;">
+                <h2 class="gallery-section-title"><i class="fa-solid fa-images"></i> Project Gallery</h2>
+                <div class="gallery-grid">
+                    {% for g_img in gallery_images %}
+                    <div class="gallery-item-wrapper" onclick="openLightbox('{{ g_img.image.url }}')">
+                        <img src="{{ g_img.image.url }}" alt="{{ g_img.caption }}" class="gallery-img">
+                        <div class="gallery-hover-overlay">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Lightbox Overlay -->
+            <div id="gallery-lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+                <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+                <img class="lightbox-content" id="lightbox-image" alt="Screenshot Lightbox View">
+            </div>
+
+            <!-- Project Navigation links -->
+            <nav class="project-navigation-section" data-aos="fade-up">
+                <div class="project-nav-grid">
+                    {% if prev_project %}
+                    <a href="{% url 'project_detail' slug=prev_project.slug %}" class="project-nav-link prev-link glass-card">
+                        <div class="nav-direction"><i class="fa-solid fa-arrow-left"></i> Previous Project</div>
+                        <div class="nav-project-title">{{ prev_project.title }}</div>
+                    </a>
+                    {% else %}
+                    <div class="project-nav-link-disabled prev-link-disabled glass-card">
+                        <div class="nav-direction">First Project</div>
+                        <div class="nav-project-title">No older project</div>
+                    </div>
+                    {% endif %}
+
+                    {% if next_project %}
+                    <a href="{% url 'project_detail' slug=next_project.slug %}" class="project-nav-link next-link glass-card">
+                        <div class="nav-direction">Next Project <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="nav-project-title">{{ next_project.title }}</div>
+                    </a>
+                    {% else %}
+                    <div class="project-nav-link-disabled next-link-disabled glass-card">
+                        <div class="nav-direction">Latest Project</div>
+                        <div class="nav-project-title">No newer project</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </nav>
+
+            <!-- Related Projects -->
+            {% if related_projects %}
+            <section class="related-projects-section" style="margin-top: 60px; border-top: 1px solid var(--border-color); padding-top: 40px;">
+                <h2 class="related-projects-title"><i class="fa-solid fa-link"></i> Related Projects</h2>
+                <div class="projects-grid" style="margin-top: 30px;">
+                    {% for rel_job in related_projects %}
+                    <a href="{% url 'project_detail' slug=rel_job.slug %}" class="project-card-link">
+                        <div class="project-card glass-card">
+                            <div class="project-thumbnail-wrapper">
+                                {% if rel_job.image %}
+                                <img src="{{ rel_job.image.url }}" alt="{{ rel_job.title }}" class="project-image">
+                                {% else %}
+                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop" alt="{{ rel_job.title }}" class="project-image">
+                                {% endif %}
+                            </div>
+                            
+                            <div class="project-card-content">
+                                <h3 class="project-card-title">{{ rel_job.title }}</h3>
+                                <p class="project-card-description">
+                                    {{ rel_job.summary|truncatewords:20 }}
+                                </p>
+                                <div class="project-tech-badges">
+                                    {% for t in rel_job.tech.all %}
+                                    <span class="tech-badge"><i class="fa-solid fa-code-branch"></i> {{ t.name }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="project-card-footer">
+                                    <span class="btn-view-details">
+                                        View Details <i class="fa-solid fa-arrow-right"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer-wrapper">
+        <div class="container footer-bottom">
+            <p>&copy; <span id="copyright-year">2026</span> {{ profile.name }}. All rights reserved.</p>
+            <a href="{% url 'homepage' %}" class="footer-link">Back to Home</a>
+        </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="{% static 'popper.min.js' %}"></script>
-    <script src="{% static 'jquery-4.0.0.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  </body>
+    <!-- Back to Top Button -->
+    <button class="back-to-top-btn" aria-label="Back to Top" id="back-to-top-button">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- AOS Script Initialization -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 80,
+                easing: 'ease-out-cubic'
+            });
+            document.getElementById('copyright-year').innerText = new Date().getFullYear();
+        });
+    </script>
+
+    <!-- Project JS Controller -->
+    <script>
+        // Simple Lightbox Actions
+        function openLightbox(imgUrl) {
+            document.getElementById('lightbox-image').src = imgUrl;
+            document.getElementById('gallery-lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('gallery-lightbox').classList.remove('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+
+            // Mobile Menu Toggle
+            const hamburger = document.getElementById("mobile-hamburger-btn");
+            const menu = document.getElementById("navbar-menu");
+
+            if (hamburger && menu) {
+                hamburger.addEventListener("click", function() {
+                    hamburger.classList.toggle("active");
+                    menu.classList.toggle("active");
+                });
+            }
+
+            // Scroll events (Progress Bar, Back-to-Top)
+            const progressBar = document.querySelector(".scroll-progress-bar");
+            const backToTopBtn = document.getElementById("back-to-top-button");
+
+            window.addEventListener("scroll", function() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                
+                if (progressBar) {
+                    progressBar.style.width = scrollPercent + "%";
+                }
+                
+                if (backToTopBtn) {
+                    if (scrollTop > 400) {
+                        backToTopBtn.classList.add("active");
+                    } else {
+                        backToTopBtn.classList.remove("active");
+                    }
+                }
+            });
+
+            // Mouse Tracking Spotlight
+            const blob = document.getElementById("spotlight-blob");
+            if (blob) {
+                document.addEventListener("mousemove", function(e) {
+                    const x = e.clientX - 300;
+                    const y = e.clientY - 300;
+                    blob.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                });
+            }
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener("click", function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+                });
+            }
+        });
+    </script>
+</body>
 </html>

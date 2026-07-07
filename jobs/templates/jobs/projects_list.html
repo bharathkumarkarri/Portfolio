@@ -1,0 +1,269 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="All Projects of {{ profile.name }}">
+    <title>All Projects | {{ profile.name }}</title>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Library CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
+    <!-- Background Glowing Blobs -->
+    <div class="glow-blob blob-1" id="spotlight-blob"></div>
+    <div class="glow-blob blob-2"></div>
+
+    <!-- Sticky Navbar -->
+    <header class="navbar-header scrolled">
+        <div class="container navbar-container">
+            <a href="{% url 'homepage' %}" class="navbar-logo" id="nav-logo-btn">
+                <span>KB</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="navbar-menu-wrapper" id="navbar-menu">
+                <nav class="navbar-nav-list">
+                    <a href="{% url 'homepage' %}#home" class="navbar-nav-link">Home</a>
+                    <a href="{% url 'homepage' %}#about" class="navbar-nav-link">About</a>
+                    <a href="{% url 'homepage' %}#skills" class="navbar-nav-link">Skills</a>
+                    <a href="{% url 'homepage' %}#projects" class="navbar-nav-link active">Projects</a>
+                    <a href="{% url 'homepage' %}#experience" class="navbar-nav-link">Experience</a>
+                    <a href="{% url 'homepage' %}#contact" class="navbar-nav-link">Contact</a>
+                </nav>
+
+                {% if resumes %}
+                <a href="{{ resumes.file.url }}" target="_blank" class="btn-premium" style="padding: 0.5rem 1.5rem; font-size: 0.85rem;">
+                    <i class="fa-solid fa-download"></i> Resume
+                </a>
+                {% endif %}
+
+            </div>
+
+            <button class="mobile-hamburger" aria-label="Toggle Menu" id="mobile-hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main List content -->
+    <main style="padding-top: 100px; min-height: calc(100vh - 200px);">
+        <!-- List Hero Title -->
+        <section class="list-hero-section">
+            <div class="container">
+                <h1 class="list-hero-title gradient-text">Project Showcase</h1>
+                <p class="list-hero-desc">Explore the detailed engineering designs, full tech stacks, and live applications of projects I have built.</p>
+            </div>
+        </section>
+
+        <!-- Search and Filters Section -->
+        <section class="container" style="margin-bottom: 20px;">
+            <div class="glass-card filters-bar-wrapper">
+                <div class="search-filter-grid">
+                    <!-- Search Input -->
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="project-search" class="search-control" placeholder="Search projects by title, summary...">
+                    </div>
+                    
+                    <!-- Filters List -->
+                    <div class="tech-filter-pills" id="tech-filters">
+                        <div class="filter-pill active" data-filter="all">All Tech</div>
+                        {% for tech in technologies %}
+                        <div class="filter-pill" data-filter="{{ tech.name|lower }}">{{ tech.name }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="container" style="margin-bottom: 80px;">
+            <div class="projects-grid" id="projects-list-grid">
+                {% for job in jobs %}
+                <a href="{% url 'project_detail' slug=job.slug %}" class="project-card-link project-list-item" 
+                   data-title="{{ job.title|lower }} {{ job.summary|lower }}" 
+                   data-tech="{% for t in job.tech.all %}{{ t.name|lower }},{% endfor %}">
+                    <div class="project-card glass-card">
+                        <div class="project-thumbnail-wrapper">
+                            {% if job.image %}
+                            <img src="{{ job.image.url }}" alt="{{ job.title }}" class="project-image">
+                            {% else %}
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop" alt="{{ job.title }}" class="project-image">
+                            {% endif %}
+                        </div>
+                        
+                        <div class="project-card-content">
+                            <h3 class="project-card-title">{{ job.title }}</h3>
+                            
+                            <p class="project-card-description">
+                                {{ job.summary }}
+                            </p>
+                            
+                            <div class="project-tech-badges">
+                                {% for technology in job.tech.all %}
+                                <span class="tech-badge"><i class="fa-solid fa-code-branch"></i> {{ technology.name }}</span>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="project-card-footer">
+                                <span class="btn-view-details">
+                                    View Details <i class="fa-solid fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <p class="text-secondary text-center" style="width: 100%; grid-column: 1/-1;">No projects added yet.</p>
+                {% endfor %}
+            </div>
+            
+            <div id="no-projects-found" class="text-center text-secondary" style="display: none; padding: 40px 0; font-size: 1.1rem;">
+                <i class="fa-solid fa-folder-open" style="font-size: 2.5rem; margin-bottom: 12px; display: block; color: var(--text-muted);"></i>
+                No projects match your search or filter tags.
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-wrapper">
+        <div class="container footer-bottom">
+            <p>&copy; <span id="copyright-year">2026</span> {{ profile.name }}. All rights reserved.</p>
+            <a href="{% url 'homepage' %}" class="footer-link">Back to Home</a>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top-btn" aria-label="Back to Top" id="back-to-top-button">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Theme and Search Logic JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('copyright-year').innerText = new Date().getFullYear();
+
+
+
+            // Mobile menu toggle
+            const hamburger = document.getElementById("mobile-hamburger-btn");
+            const menu = document.getElementById("navbar-menu");
+
+            if (hamburger && menu) {
+                hamburger.addEventListener("click", function() {
+                    hamburger.classList.toggle("active");
+                    menu.classList.toggle("active");
+                });
+            }
+
+            // Scroll events (Progress Bar, Back-to-Top)
+            const progressBar = document.querySelector(".scroll-progress-bar");
+            const backToTopBtn = document.getElementById("back-to-top-button");
+
+            window.addEventListener("scroll", function() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                
+                if (progressBar) {
+                    progressBar.style.width = scrollPercent + "%";
+                }
+                
+                if (backToTopBtn) {
+                    if (scrollTop > 400) {
+                        backToTopBtn.classList.add("active");
+                    } else {
+                        backToTopBtn.classList.remove("active");
+                    }
+                }
+            });
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener("click", function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+                });
+            }
+
+            // FILTERING LOGIC
+            const searchInput = document.getElementById("project-search");
+            const filterPills = document.querySelectorAll(".filter-pill");
+            const projectItems = document.querySelectorAll(".project-list-item");
+            const noProjectsFound = document.getElementById("no-projects-found");
+
+            let currentSearch = "";
+            let currentFilter = "all";
+
+            function filterProjects() {
+                let matchCount = 0;
+                projectItems.forEach(item => {
+                    const titleAndDesc = item.getAttribute("data-title");
+                    const techStack = item.getAttribute("data-tech").split(",");
+                    
+                    const matchesSearch = titleAndDesc.includes(currentSearch);
+                    const matchesFilter = currentFilter === "all" || techStack.includes(currentFilter);
+                    
+                    if (matchesSearch && matchesFilter) {
+                        item.style.display = "block";
+                        matchCount++;
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+
+                if (matchCount === 0) {
+                    noProjectsFound.style.display = "block";
+                } else {
+                    noProjectsFound.style.display = "none";
+                }
+            }
+
+            // Mouse Tracking Spotlight
+            const blob = document.getElementById("spotlight-blob");
+            if (blob) {
+                document.addEventListener("mousemove", function(e) {
+                    const x = e.clientX - 300;
+                    const y = e.clientY - 300;
+                    blob.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                });
+            }
+
+            // Listen to Search input
+            if (searchInput) {
+                searchInput.addEventListener("input", function(e) {
+                    currentSearch = e.target.value.toLowerCase().trim();
+                    filterProjects();
+                });
+            }
+
+            // Listen to Filter Pill clicks
+            filterPills.forEach(pill => {
+                pill.addEventListener("click", function() {
+                    filterPills.forEach(p => p.classList.remove("active"));
+                    pill.classList.add("active");
+                    currentFilter = pill.getAttribute("data-filter");
+                    filterProjects();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

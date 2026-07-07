@@ -1,440 +1,812 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Karri Bharath Kumar | Portfolio</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium Developer Portfolio - {{ profile.name }}">
+    <title>{{ profile.name }} | Developer Portfolio</title>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts: Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap CSS -->
-    <link
-      href="{% static 'css/bootstrap.min.css' %}"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- AOS Library CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-    <style>
-      :root {
-        --bg-color: #faf7f2;
-        --card-bg: #ffffff;
-        --card-border: rgba(111, 78, 55, 0.08);
-        --text-primary: #3e2723;
-        --text-secondary: #795548;
-        --accent-gradient: linear-gradient(135deg, #8d6e63 0%, #b08968 50%, #ddb892 100%);
-        --glow-primary: rgba(141, 110, 99, 0.06);
-      }
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
 
-      body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-primary);
-        min-height: 100vh;
-        overflow-x: hidden;
-        position: relative;
-      }
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar"></div>
+    </div>
 
-      /* Glow background blobs */
-      body::before {
-        content: '';
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        top: -150px;
-        left: -150px;
-        background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
-        z-index: -1;
-        pointer-events: none;
-      }
-      
-      body::after {
-        content: '';
-        position: absolute;
-        width: 500px;
-        height: 500px;
-        bottom: 10%;
-        right: -100px;
-        background: radial-gradient(circle, rgba(221, 184, 146, 0.05) 0%, transparent 70%);
-        z-index: -1;
-        pointer-events: none;
-      }
+    <!-- Background Glowing Blobs -->
+    <div class="glow-blob blob-1" id="spotlight-blob"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="glow-blob blob-3"></div>
 
-      /* Navbar */
-      .navbar-glass {
-        background: rgba(250, 247, 242, 0.8);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--card-border);
-      }
+    <!-- Sticky Navbar -->
+    <header class="navbar-header">
+        <div class="container navbar-container">
+            <a href="#home" class="navbar-logo" id="nav-logo-btn">
+                <span>KB</span>
+            </a>
 
-      .navbar-glass .nav-link {
-        color: var(--text-secondary) !important;
-        font-weight: 500;
-        transition: color 0.3s ease;
-      }
+            <!-- Navigation Links -->
+            <div class="navbar-menu-wrapper" id="navbar-menu">
+                <nav class="navbar-nav-list" id="navbar-main-nav">
+                    <a href="#home" class="navbar-nav-link active">Home</a>
+                    <a href="#about" class="navbar-nav-link">About</a>
+                    <a href="#skills" class="navbar-nav-link">Skills</a>
+                    <a href="#projects" class="navbar-nav-link">Projects</a>
+                    <a href="#experience" class="navbar-nav-link">Experience</a>
+                    <a href="#education" class="navbar-nav-link">Education</a>
+                    <a href="#contact" class="navbar-nav-link">Contact</a>
+                </nav>
 
-      .navbar-glass .nav-link:hover, .navbar-glass .nav-link.active {
-        color: #8d6e63 !important;
-      }
-
-      /* Logo Brand */
-      .logo-badge {
-        background: var(--accent-gradient);
-        color: white;
-        width: 36px;
-        height: 36px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        font-size: 0.95rem;
-        font-weight: 800;
-        box-shadow: 0 4px 10px rgba(141, 110, 99, 0.2);
-        transition: transform 0.3s ease;
-      }
-
-      .navbar-brand:hover .logo-badge {
-        transform: rotate(-5deg) scale(1.05);
-      }
-
-      .logo-text {
-        color: var(--text-primary);
-        font-weight: 800;
-        letter-spacing: -0.5px;
-      }
-
-      /* Hero Section */
-      .hero-section {
-        padding: 8rem 0 4rem;
-        position: relative;
-      }
-
-      .avatar-container {
-        position: relative;
-        display: inline-block;
-        margin-bottom: 2rem;
-      }
-
-      .avatar-img {
-        width: 160px;
-        height: 160px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 4px solid #ffffff;
-        box-shadow: 0 10px 25px rgba(111, 78, 55, 0.08);
-        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
-
-      .avatar-container::after {
-        content: '';
-        position: absolute;
-        top: -5px;
-        left: -5px;
-        right: -5px;
-        bottom: -5px;
-        border-radius: 50%;
-        background: var(--accent-gradient);
-        z-index: -1;
-        opacity: 0.3;
-        filter: blur(8px);
-        transition: opacity 0.5s;
-      }
-
-      .avatar-container:hover .avatar-img {
-        transform: scale(1.05) rotate(2deg);
-      }
-
-      .avatar-container:hover::after {
-        opacity: 0.6;
-      }
-
-      .gradient-text {
-        background: var(--accent-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 800;
-      }
-
-      .btn-gradient {
-        background: var(--accent-gradient);
-        color: white;
-        border: none;
-        padding: 0.75rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(141, 110, 99, 0.2);
-      }
-
-      .btn-gradient:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(141, 110, 99, 0.35);
-        color: white;
-      }
-
-      .btn-glass {
-        background: rgba(111, 78, 55, 0.04);
-        color: var(--text-primary);
-        border: 1px solid var(--card-border);
-        padding: 0.75rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-
-      .btn-glass:hover {
-        background: rgba(111, 78, 55, 0.08);
-        border-color: rgba(111, 78, 55, 0.12);
-        color: var(--text-primary);
-        transform: translateY(-2px);
-      }
-
-      /* Projects Section */
-      .section-title {
-        position: relative;
-        display: inline-block;
-        padding-bottom: 10px;
-        margin-bottom: 3rem;
-      }
-
-      .section-title::after {
-        content: '';
-        position: absolute;
-        width: 60px;
-        height: 4px;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--accent-gradient);
-        border-radius: 2px;
-      }
-
-      .project-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 16px;
-        overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        box-shadow: 0 4px 20px rgba(111, 78, 55, 0.02);
-      }
-
-      .project-card:hover {
-        transform: translateY(-8px);
-        border-color: rgba(141, 110, 99, 0.2);
-        box-shadow: 0 15px 35px rgba(111, 78, 55, 0.08), 0 0 15px rgba(141, 110, 99, 0.03);
-      }
-
-      .card-img-wrapper {
-        position: relative;
-        overflow: hidden;
-        aspect-ratio: 16/10;
-        border-bottom: 1px solid var(--card-border);
-      }
-
-      .card-img-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-      }
-
-      .project-card:hover .card-img-wrapper img {
-        transform: scale(1.08);
-      }
-
-      .badge-tech {
-        background: rgba(141, 110, 99, 0.06);
-        color: #8d6e63;
-        border: 1px solid rgba(141, 110, 99, 0.1);
-        font-weight: 600;
-        padding: 0.35rem 0.75rem;
-        border-radius: 50px;
-        font-size: 0.75rem;
-      }
-
-      /* Footer */
-      footer {
-        border-top: 1px solid var(--card-border);
-        background-color: #080b12 !important;
-      }
-
-      .footer-social-link {
-        font-size: 1.25rem;
-        width: 40px;
-        height: 40px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        color: rgba(255, 255, 255, 0.6);
-        transition: all 0.3s ease;
-      }
-
-      .footer-social-link:hover {
-        background: var(--accent-gradient);
-        color: white;
-        transform: translateY(-3px);
-        border-color: transparent;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light navbar-glass fixed-top">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
-          <span class="logo-badge me-2">BK</span>
-          <span class="logo-text">Karri Bharath Kumar</span>
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-          aria-controls="navbarContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#projects">Projects</a>
-            </li>
-            <li class="nav-item ms-lg-3">
-              <a href="mailto:bharath.karri23@gmail.com" class="btn btn-glass btn-sm px-4">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <main>
-      <!-- Hero Section -->
-      <section class="hero-section text-center">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-8">
-              <div class="avatar-container">
-                <img src="{% static 'pavan.jpg' %}" alt="Karri Bharath Kumar" class="avatar-img" />
-              </div>
-              <h1 class="display-4 fw-extrabold mb-3">
-                Hi, I'm <span class="gradient-text">Bharath Kumar</span> 
-              </h1>
-              <h3 class="h4 text-secondary mb-4">
-                Full Stack Developer | Python | Django
-              </h3>
-              <p class="lead text-secondary mx-auto mb-5" style="max-width: 650px;">
-                Computer Science undergraduate passionate about AI-powered software engineering, backend systems, and building scalable, intelligent web applications.
-              </p>
-              <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="mailto:bharath.karri23@gmail.com" class="btn btn-gradient">
-                  <i class="bi bi-envelope-fill me-2"></i>Email Me
-                </a>
+                <!-- Download Resume CTA -->
                 {% if resumes %}
-                <a href="{{ resumes.file.url }}" class="btn btn-glass" target="_blank">
-                  <i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>My Resume
+                <a href="{{ resumes.file.url }}" target="_blank" class="btn-premium" id="nav-resume-btn" style="padding: 0.5rem 1.5rem; font-size: 0.85rem;">
+                    <i class="fa-solid fa-download"></i> Resume
                 </a>
-                {% else %}
-                <button class="btn btn-glass" disabled>
-                  <i class="bi bi-file-earmark-pdf-fill me-2"></i>No Resume Available
-                </button>
                 {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- Projects Section -->
-      <section id="projects" class="py-5">
+            </div>
+
+            <!-- Toggle button for mobile -->
+            <button class="mobile-hamburger" aria-label="Toggle Menu" id="mobile-hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- HERO SECTION -->
+        <section class="hero-section" id="home">
+            <div class="container hero-grid">
+                <!-- Left Side: Profile Intro -->
+                <div class="hero-left" data-aos="fade-right" data-aos-delay="100">
+                    <div class="hero-greeting" style="font-family: var(--font-headings); font-style: italic; text-transform: none; letter-spacing: 0.5px; font-weight: 500; font-size: 1.65rem; color: var(--primary-light);">{{ profile.greeting }}</div>
+                    
+                    <h1 class="hero-name" style="font-family: var(--font-headings); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 20px;">{{ profile.name }}</h1>
+
+                    <div class="hero-profession-wrapper">
+                        <span id="typing-text" data-professions="{{ profile.titles }}"></span>
+                        <span class="typing-cursor"></span>
+                    </div>
+
+                    <p class="hero-tagline">{{ profile.tagline }}</p>
+
+                    <!-- Social Links -->
+                    <div class="social-icons-list">
+                        {% if profile.github_link %}
+                        <a href="{{ profile.github_link }}" target="_blank" class="social-icon-btn" aria-label="GitHub">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.linkedin_link %}
+                        <a href="{{ profile.linkedin_link }}" target="_blank" class="social-icon-btn" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="hero-btns-wrapper">
+                        <a href="#projects" class="btn-premium" id="hero-view-work-btn">
+                            View My Work <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#contact" class="btn-glass-secondary" id="hero-contact-btn">
+                            Contact Me <i class="fa-regular fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Side: Profile Image -->
+                <div class="hero-right" data-aos="zoom-in" data-aos-delay="250">
+                    <div class="hero-image-wrapper">
+                        <!-- Profile Photo Frame -->
+                        <div class="hero-profile-image-container">
+                            {% if profile.profile_photo %}
+                            <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}" id="profile-photo-img">
+                            {% else %}
+                            <img src="{% static 'pavan.jpg' %}" alt="{{ profile.name }}" id="profile-photo-img">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT ME SECTION -->
+        <section class="section-wrapper" id="about">
+            <div class="container">
+                <div class="section-label">01 // Profile</div>
+                <h2 class="section-title">Who I Am</h2>
+
+                <div class="about-grid">
+                    <!-- Left Side: Bio text -->
+                    <div class="about-left" data-aos="fade-up" data-aos-delay="100">
+                        <div class="about-bio-icon-box">
+                            <i class="fa-regular fa-user"></i>
+                        </div>
+                        <div class="about-bio-text">
+                            {{ profile.bio|linebreaks }}
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Quick info Glass cards -->
+                    <div class="about-right" data-aos="fade-up" data-aos-delay="200">
+                        <!-- Name Card -->
+                        <div class="glass-card about-info-card" id="info-card-name">
+                            <div class="about-info-icon"><i class="fa-regular fa-id-card"></i></div>
+                            <div class="about-info-title">Name</div>
+                            <div class="about-info-value">{{ profile.name }}</div>
+                        </div>
+
+                        <!-- Email Card -->
+                        <div class="glass-card about-info-card" id="info-card-email">
+                            <div class="about-info-icon"><i class="fa-regular fa-envelope"></i></div>
+                            <div class="about-info-title">Email</div>
+                            <div class="about-info-value" style="font-size: 0.85rem;">{{ profile.email }}</div>
+                        </div>
+
+                        <!-- Location Card -->
+                        <div class="glass-card about-info-card" id="info-card-location">
+                            <div class="about-info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="about-info-title">Location</div>
+                            <div class="about-info-value">{{ profile.location }}</div>
+                        </div>
+
+                        <!-- Availability Card -->
+                        <div class="glass-card about-info-card" id="info-card-availability">
+                            <div class="about-info-icon"><i class="fa-regular fa-clock"></i></div>
+                            <div class="about-info-title">Availability</div>
+                            <div class="about-info-value">{{ profile.availability }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Artisan Section Divider -->
         <div class="container">
-          <div class="text-center">
-            <h2 class="section-title fw-bold text-uppercase tracking-wider">My Projects</h2>
-          </div>
-
-          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
-            {% for job in jobs %}
-            <div class="col">
-              <div class="card h-100 project-card">
-                <div class="card-img-wrapper">
-                  <img src="{{ job.image.url }}" alt="{{ job.title }}" />
-                </div>
-                <div class="card-body d-flex flex-column p-4">
-                  <h5 class="card-title fw-bold mb-3">{{ job.title }}</h5>
-                  
-                  <!-- Tech stack badges -->
-                  {% if job.tech.all %}
-                  <div class="d-flex flex-wrap gap-2 mb-3">
-                    {% for technology in job.tech.all %}
-                    <span class="badge badge-tech">{{ technology.name }}</span>
-                    {% endfor %}
-                  </div>
-                  {% endif %}
-
-                  <p class="card-text text-secondary mb-4 flex-grow-1">
-                    {{ job.summary|truncatewords:25 }}
-                  </p>
-                  
-                  <a href="{% url 'project' job_id=job.id %}" class="btn btn-glass w-100 mt-auto">
-                    View Project <i class="bi bi-arrow-right ms-1"></i>
-                  </a>
-                </div>
-              </div>
+            <div class="artisan-divider">
+                <i class="fa-solid fa-wind"></i>
             </div>
-            {% empty %}
-            <div class="col-12 text-center py-5">
-              <p class="text-secondary">No projects added yet.</p>
-            </div>
-            {% endfor %}
-          </div>
         </div>
-      </section>
+
+        <!-- MY SKILLS SECTION -->
+        <section class="section-wrapper" id="skills">
+            <div class="container">
+                <div class="section-label">02 // Expertise</div>
+                <h2 class="section-title">What I Do</h2>
+
+                <div class="skills-badges-wrapper" data-aos="fade-up">
+                    {% for skill in skills %}
+                    <div class="skill-badge-pill">
+                        <span class="skill-badge-icon">
+                            <i class="{{ skill.icon_class }}"></i>
+                        </span>
+                        <span class="skill-badge-name">{{ skill.name }}</span>
+                    </div>
+                    {% empty %}
+                    <p class="text-secondary">No skills registered yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Artisan Section Divider -->
+        <div class="container">
+            <div class="artisan-divider">
+                <i class="fa-regular fa-folder-open"></i>
+            </div>
+        </div>
+
+        <!-- FEATURED PROJECTS SECTION -->
+        <section class="section-wrapper" id="projects">
+            <div class="container">
+                <div class="projects-header-wrapper">
+                    <div>
+                        <div class="section-label">03 // Showcase</div>
+                        <h2 class="section-title" style="margin-bottom: 0;">Featured Projects</h2>
+                    </div>
+                    <a href="{% url 'projects_list' %}" class="btn-glass-secondary" id="projects-view-all-btn">
+                        View All Projects <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="projects-grid" data-aos="fade-up" style="margin-top: 30px;">
+                    {% for job in jobs %}
+                    <a href="{% url 'project_detail' slug=job.slug %}" class="project-card-link {% if forloop.counter > 4 %}hidden-project{% endif %}">
+                        <div class="project-card glass-card">
+                            <div class="project-thumbnail-wrapper">
+                                {% if job.image %}
+                                <img src="{{ job.image.url }}" alt="{{ job.title }}" class="project-image">
+                                {% else %}
+                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop" alt="{{ job.title }}" class="project-image">
+                                {% endif %}
+                            </div>
+                            
+                            <div class="project-card-content">
+                                <h3 class="project-card-title">{{ job.title }}</h3>
+                                
+                                <p class="project-card-description">
+                                    {{ job.summary|truncatewords:20 }}
+                                </p>
+                                
+                                <div class="project-tech-badges">
+                                    {% for technology in job.tech.all %}
+                                    <span class="tech-badge"><i class="fa-solid fa-code-branch"></i> {{ technology.name }}</span>
+                                    {% endfor %}
+                                </div>
+                                
+                                <div class="project-card-footer">
+                                    <span class="btn-view-details">
+                                        View Details <i class="fa-solid fa-arrow-right"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <p class="text-secondary">No projects added yet.</p>
+                    {% endfor %}
+                </div>
+                
+                {% if jobs|length > 4 %}
+                <div style="display: flex; justify-content: center; margin-top: 35px; width: 100%;">
+                    <button id="more-projects-btn" class="btn-glass-secondary" style="padding: 0.6rem 2rem; font-size: 0.9rem;">
+                        More Projects <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; margin-left: 4px;"></i>
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- WORK EXPERIENCE JOURNEY SECTION -->
+        <section class="section-wrapper" id="experience" style="background: rgba(141, 110, 99, 0.02); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+            <div class="container" data-aos="fade-up">
+                <div class="section-label">04 // Journey</div>
+                <h2 class="section-title">Work Experience</h2>
+
+                <div class="experience-timeline">
+                    {% for exp in experiences %}
+                    <div class="experience-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="experience-bullet"></div>
+                        <div class="experience-card">
+                            <div class="experience-icon-box">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <div class="experience-content">
+                                <div class="experience-card-header">
+                                    <div>
+                                        <h3 class="experience-role-title">{{ exp.role }}</h3>
+                                        <span class="experience-company-name">{{ exp.company }}</span>
+                                    </div>
+                                    <span class="experience-date-badge">{{ exp.start_date }} - {{ exp.end_date }}</span>
+                                </div>
+                                <p class="experience-desc-text">{{ exp.description }}</p>
+                                
+                                <div class="experience-tech-used">
+                                    {% if "Python" in exp.description or "Django" in exp.description or "Backend" in exp.description or "API" in exp.description %}
+                                    <span class="tech-badge"><i class="fa-brands fa-python"></i> Python</span>
+                                    {% endif %}
+                                    {% if "Django" in exp.description or "REST" in exp.description %}
+                                    <span class="tech-badge"><i class="fa-solid fa-server"></i> Django</span>
+                                    {% endif %}
+                                    {% if "React" in exp.description or "frontend" in exp.description or "Frontend" in exp.description or "JavaScript" in exp.description or "HTML" in exp.description %}
+                                    <span class="tech-badge"><i class="fa-brands fa-react"></i> React</span>
+                                    {% endif %}
+                                    {% if "Docker" in exp.description or "deployment" in exp.description %}
+                                    <span class="tech-badge"><i class="fa-brands fa-docker"></i> Docker</span>
+                                    {% endif %}
+                                    {% if "SQL" in exp.description or "database" in exp.description or "Database" in exp.description or "Postgres" in exp.description %}
+                                    <span class="tech-badge"><i class="fa-solid fa-database"></i> SQL</span>
+                                    {% endif %}
+                                    {% if "Git" in exp.description or "GitHub" in exp.description %}
+                                    <span class="tech-badge"><i class="fa-brands fa-git-alt"></i> Git</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-secondary">No experience listed yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Artisan Section Divider -->
+        <div class="container">
+            <div class="artisan-divider">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+        </div>
+
+        <!-- ACADEMICS & ACHIEVEMENTS ROW (2-COLUMN CARDS / TILES) -->
+        <section class="section-wrapper" id="details-section">
+            <div class="container details-row-grid-2col">
+                
+                <!-- COLUMN 1: EDUCATION PANEL CARD -->
+                <div class="details-panel-card" id="education" data-aos="fade-up" data-aos-delay="100">
+                    <div class="details-column-header-wrapper">
+                        <div>
+                            <div class="details-column-title-label">05 // Credentials</div>
+                            <h3 class="details-column-title">My Education</h3>
+                        </div>
+                    </div>
+
+                    <div class="education-cards-wrapper">
+                        {% for edu in educations %}
+                        <div class="glass-card education-card" style="background: rgba(255, 255, 255, 0.45); border: 1px solid var(--border-color);">
+                            <div class="education-icon-box">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div class="education-content">
+                                <h4 class="education-degree">{{ edu.degree }}</h4>
+                                <span class="education-college">{{ edu.institution }}</span>
+                                <div class="education-meta">
+                                    <span class="education-date">{{ edu.duration }}</span>
+                                    <span class="education-cgpa">{{ edu.cgpa }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-secondary">No education listed yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- COLUMN 2: CERTIFICATES PANEL CARD -->
+                <div class="details-panel-card" id="certificates" data-aos="fade-up" data-aos-delay="200">
+                    <div class="details-column-header-wrapper">
+                        <div>
+                            <div class="details-column-title-label">06 // Accreditations</div>
+                            <h3 class="details-column-title">My Certificates</h3>
+                        </div>
+                        <a href="{% url 'certificates_list' %}" class="details-column-view-all" id="certs-view-all-btn">
+                            View All <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="certificates-cards-wrapper">
+                        {% for cert in certificates %}
+                        <div class="glass-card certificate-card {% if forloop.counter > 3 %}hidden-certificate{% endif %}" style="background: rgba(255, 255, 255, 0.45); border: 1px solid var(--border-color);">
+                            <div class="certificate-ribbon"><i class="fa-solid fa-award"></i></div>
+                            <div class="certificate-icon-box">
+                                <i class="fa-regular fa-file-pdf"></i>
+                            </div>
+                            <div class="certificate-content">
+                                <h4 class="certificate-title">{{ cert.title }}</h4>
+                                <span class="certificate-organization">{{ cert.issuer }}</span>
+                                <div class="certificate-meta">
+                                    <span>{{ cert.year }}</span>
+                                    {% if cert.verification_link %}
+                                    <a href="{{ cert.verification_link }}" target="_blank" class="certificate-verify-btn">Verify <i class="fa-solid fa-angle-right"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-secondary">No certificates added yet.</p>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if certificates|length > 3 %}
+                    <button id="more-certs-btn" class="btn-glass-secondary" style="width: 100%; justify-content: center; margin-top: 20px; padding: 0.6rem 1.5rem; font-size: 0.9rem;">
+                        More Certificates <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; margin-left: 4px;"></i>
+                    </button>
+                    {% endif %}
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Artisan Section Divider -->
+        <div class="container">
+            <div class="artisan-divider">
+                <i class="fa-solid fa-paper-plane"></i>
+            </div>
+        </div>
+
+        <!-- CONTACT SECTION (Unified Dual-Pane correspondence Hub) -->
+        <section class="section-wrapper" id="contact" style="padding-bottom: 60px;">
+            <div class="container" data-aos="fade-up">
+                <div class="section-label">07 // Correspondence</div>
+                <h2 class="section-title">Get In Touch</h2>
+                
+                <div class="contact-unified-card">
+                    <!-- Left Pane: info -->
+                    <div class="contact-left-pane">
+                        <div>
+                            <h3 class="contact-left-title">Let's Work Together</h3>
+                            <p class="contact-left-subtitle">
+                                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Fill out the form or reach out directly!
+                            </p>
+                            
+                            <div class="contact-left-items">
+                                <div class="contact-left-item">
+                                    <div class="contact-left-item-icon">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </div>
+                                    <span style="font-weight: 500;">{{ profile.email }}</span>
+                                </div>
+                                <div class="contact-left-item">
+                                    <div class="contact-left-item-icon">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <span style="font-weight: 500;">{{ profile.location }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-left-socials">
+                            {% if profile.github_link %}
+                            <a href="{{ profile.github_link }}" target="_blank" class="contact-left-social-btn" aria-label="GitHub">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            {% endif %}
+                            {% if profile.linkedin_link %}
+                            <a href="{{ profile.linkedin_link }}" target="_blank" class="contact-left-social-btn" aria-label="LinkedIn">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Right Pane: Form with Floating Labels -->
+                    <div class="contact-right-pane">
+                        <form id="contact-form">
+                            <div class="form-group-floating">
+                                <input type="text" id="form-name" class="floating-input" placeholder=" " required>
+                                <label for="form-name" class="floating-label">Full Name</label>
+                            </div>
+                            <div class="form-group-floating">
+                                <input type="email" id="form-email" class="floating-input" placeholder=" " required>
+                                <label for="form-email" class="floating-label">Email Address</label>
+                            </div>
+                            <div class="form-group-floating">
+                                <input type="text" id="form-subject" class="floating-input" placeholder=" " required>
+                                <label for="form-subject" class="floating-label">Subject</label>
+                            </div>
+                            <div class="form-group-floating">
+                                <textarea id="form-message" class="floating-input" placeholder=" " required></textarea>
+                                <label for="form-message" class="floating-label">Message</label>
+                            </div>
+                            <button type="submit" class="btn-premium" style="width: 100%; justify-content: center; padding: 0.9rem;">
+                                Send Message <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-5 mt-5">
-      <div class="container text-center">
-        <h4 class="fw-bold mb-2 text-white">Bharath Kumar Karri</h4>
-        <p class="text-secondary mb-4">Full Stack Developer | Python | Django</p>
-        
-        <div class="d-flex justify-content-center gap-3 mb-4">
-          <a href="https://www.linkedin.com/in/bharath-kumar-karri/" target="_blank" class="footer-social-link" title="LinkedIn">
-            <i class="bi bi-linkedin"></i>
-          </a>
-          <a href="https://github.com/bharathkumarkarri" target="_blank" class="footer-social-link" title="GitHub">
-            <i class="bi bi-github"></i>
-          </a>
-          <a href="mailto:bharath.karri23@gmail.com" class="footer-social-link" title="Email">
-            <i class="bi bi-envelope-fill"></i>
-          </a>
-          <a href="https://bharath-kumar-portfolio.framer.website/" target="_blank" class="footer-social-link" title="Website">
-            <i class="bi bi-globe"></i>
-          </a>
+    <!-- Footer Section -->
+    <footer class="footer-wrapper" id="footer-section">
+        <div class="container footer-grid">
+            <div class="footer-column">
+                <a href="#home" class="footer-logo" id="footer-logo-btn">
+                    <span>{{ profile.name }}</span>
+                </a>
+                <p class="footer-desc">
+                    Designing and engineering premium digital products, web applications, and interactive user experiences.
+                </p>
+                <div class="footer-social-wrapper">
+                    {% if profile.github_link %}
+                    <a href="{{ profile.github_link }}" target="_blank" class="footer-social-btn" aria-label="GitHub">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    {% endif %}
+                    {% if profile.linkedin_link %}
+                    <a href="{{ profile.linkedin_link }}" target="_blank" class="footer-social-btn" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-column">
+                <h4 class="footer-col-title">Quick Links</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#home" class="footer-link">Home</a></li>
+                    <li><a href="#about" class="footer-link">About</a></li>
+                    <li><a href="#skills" class="footer-link">Skills</a></li>
+                    <li><a href="#projects" class="footer-link">Projects</a></li>
+                </ul>
+            </div>
+
+            <!-- Services -->
+            <div class="footer-column">
+                <h4 class="footer-col-title">Services</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#skills" class="footer-link">Web Development</a></li>
+                    <li><a href="#skills" class="footer-link">Backend Development</a></li>
+                    <li><a href="#skills" class="footer-link">API Integrations</a></li>
+                </ul>
+            </div>
+
+            <!-- Connect Info -->
+            <div class="footer-column">
+                <h4 class="footer-col-title">Connect</h4>
+                <div class="footer-contact-info-list">
+                    <div class="footer-contact-item">
+                        <i class="fa-regular fa-envelope"></i>
+                        <span>{{ profile.email }}</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>{{ profile.location }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tech-themed Abstract Background Decoration -->
+            <svg class="footer-branch-illustration" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1" opacity="0.1">
+                <circle cx="90" cy="90" r="40" stroke="var(--primary)" stroke-dasharray="2 2" />
+                <circle cx="90" cy="90" r="60" stroke="var(--accent)" stroke-dasharray="4 4" />
+                <circle cx="90" cy="90" r="80" stroke="var(--primary-light)" />
+            </svg>
         </div>
-        
-        <hr class="border-secondary my-4" style="opacity: 0.2;" />
-        <p class="text-secondary mb-0"><small>&copy; 2026 Bharath Kumar Karri. All Rights Reserved.</small></p>
-      </div>
+
+        <div class="container footer-bottom">
+            <p>&copy; <span id="copyright-year">2026</span> {{ profile.name }}. All rights reserved.</p>
+            <p>Crafted with <i class="fa-solid fa-heart" style="color: var(--primary);"></i> & Code</p>
+        </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="{% static 'popper.min.js' %}"></script>
-    <script src="{% static 'jquery-4.0.0.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  </body>
+    <!-- Back to Top Button -->
+    <button class="back-to-top-btn" aria-label="Back to Top" id="back-to-top-button">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- AOS Script Initialization -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 80,
+                easing: 'ease-out-cubic'
+            });
+            document.getElementById('copyright-year').innerText = new Date().getFullYear();
+        });
+    </script>
+    
+    <!-- Custom JS Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Typing text animation
+            const typingText = document.getElementById("typing-text");
+            if (typingText) {
+                const professions = typingText.getAttribute("data-professions").split(",");
+                let profIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+                
+                function type() {
+                    const currentProf = professions[profIndex].trim();
+                    if (isDeleting) {
+                        typingText.textContent = currentProf.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        typingText.textContent = currentProf.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+                    
+                    let typeSpeed = 80;
+                    if (isDeleting) {
+                        typeSpeed /= 2.5;
+                    }
+                    
+                    if (!isDeleting && charIndex === currentProf.length) {
+                        typeSpeed = 2000; // Pause at full text
+                        isDeleting = true;
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        profIndex = (profIndex + 1) % professions.length;
+                        typeSpeed = 400; // Pause before typing next
+                    }
+                    
+                    setTimeout(type, typeSpeed);
+                }
+                type();
+            }
+
+            // Interactive mouse glow positioning
+            document.addEventListener("mousemove", function(e) {
+                const blob1 = document.querySelector(".blob-1");
+                if (blob1) {
+                    const x = (e.clientX - window.innerWidth / 2) * 0.05;
+                    const y = (e.clientY - window.innerHeight / 2) * 0.05;
+                    blob1.style.transform = `translate(${x}px, ${y}px)`;
+                }
+            });
+
+            // Scroll progress indicator & Back-to-top button activation
+            const progressBar = document.querySelector(".scroll-progress-bar");
+            const backToTopBtn = document.getElementById("back-to-top-button");
+
+            window.addEventListener("scroll", function() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                
+                if (progressBar) {
+                    progressBar.style.width = scrollPercent + "%";
+                }
+                
+                if (backToTopBtn) {
+                    if (scrollTop > 400) {
+                        backToTopBtn.classList.add("active");
+                    } else {
+                        backToTopBtn.classList.remove("active");
+                    }
+                }
+                
+                // Sticky Navbar styling changes
+                const navbar = document.querySelector(".navbar-header");
+                if (navbar) {
+                    if (scrollTop > 30) {
+                        navbar.classList.add("scrolled");
+                    } else {
+                        navbar.classList.remove("scrolled");
+                    }
+                }
+                
+                // Active nav link highlight based on scroll position
+                const targets = document.querySelectorAll("section[id], .details-panel-card[id]");
+                const navLinks = document.querySelectorAll(".navbar-nav-link");
+                
+                let currentSec = "";
+                targets.forEach(target => {
+                    const targetTop = target.offsetTop;
+                    if (pageYOffset >= (targetTop - 200)) {
+                        currentSec = target.getAttribute("id");
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href") === `#${currentSec}`) {
+                        link.classList.add("active");
+                    }
+                });
+            });
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener("click", function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+                });
+            }
+
+            // Mobile menu toggle
+            const hamburger = document.getElementById("mobile-hamburger-btn");
+            const menu = document.getElementById("navbar-menu");
+
+            if (hamburger && menu) {
+                hamburger.addEventListener("click", function() {
+                    hamburger.classList.toggle("active");
+                    menu.classList.toggle("active");
+                });
+
+                // Close menu on nav link click
+                document.querySelectorAll(".navbar-nav-link").forEach(link => {
+                    link.addEventListener("click", function() {
+                        hamburger.classList.remove("active");
+                        menu.classList.remove("active");
+                    });
+                });
+            }
+
+
+
+            // Contact Form Interception & Animated Success Toasts
+            const contactForm = document.getElementById("contact-form");
+            if (contactForm) {
+                contactForm.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    
+                    const btn = contactForm.querySelector("button[type='submit']");
+                    const origText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending Message...';
+                    btn.disabled = true;
+                    
+                    setTimeout(function() {
+                        btn.innerHTML = '<i class="fa-solid fa-check"></i> Sent successfully!';
+                        
+                        showToast("Success", "Your message was sent successfully. I'll get back to you soon!");
+                        
+                        contactForm.reset();
+                        
+                        setTimeout(function() {
+                            btn.innerHTML = origText;
+                            btn.disabled = false;
+                        }, 2500);
+                    }, 1200);
+                });
+            }
+
+            // Mouse Tracking Spotlight
+            const blob = document.getElementById("spotlight-blob");
+            if (blob) {
+                document.addEventListener("mousemove", function(e) {
+                    const x = e.clientX - 300;
+                    const y = e.clientY - 300;
+                    blob.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                });
+            }
+
+            // Certificates Expander Toggle
+            const moreCertsBtn = document.getElementById("more-certs-btn");
+            if (moreCertsBtn) {
+                moreCertsBtn.addEventListener("click", function() {
+                    const hiddenCerts = document.querySelectorAll(".hidden-certificate");
+                    hiddenCerts.forEach(cert => {
+                        cert.classList.add("show-cert");
+                    });
+                    moreCertsBtn.style.display = "none";
+                });
+            }
+
+            // Projects Expander Toggle
+            const moreProjectsBtn = document.getElementById("more-projects-btn");
+            if (moreProjectsBtn) {
+                moreProjectsBtn.addEventListener("click", function() {
+                    const hiddenProjects = document.querySelectorAll(".hidden-project");
+                    hiddenProjects.forEach(proj => {
+                        proj.classList.add("show-project");
+                    });
+                    moreProjectsBtn.style.display = "none";
+                });
+            }
+
+            function showToast(type, message) {
+                const container = document.getElementById("toast-container") || createToastContainer();
+                const toast = document.createElement("div");
+                toast.className = `custom-toast ${type.toLowerCase()}`;
+                toast.innerHTML = `
+                    <i class="fa-solid fa-circle-check"></i>
+                    <div>
+                        <strong>${type}</strong>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">${message}</p>
+                    </div>
+                `;
+                container.appendChild(toast);
+                
+                setTimeout(function() {
+                    toast.style.animation = 'toastFadeIn 0.3s reverse forwards';
+                    setTimeout(function() {
+                        toast.remove();
+                    }, 300);
+                }, 4000);
+            }
+
+            function createToastContainer() {
+                const container = document.createElement("div");
+                container.id = "toast-container";
+                container.className = "toast-container";
+                document.body.appendChild(container);
+                return container;
+            }
+        });
+    </script>
+</body>
 </html>

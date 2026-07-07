@@ -23,5 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', jobs.views.homepage, name='homepage'),
-    path('project/<int:job_id>/', jobs.views.project, name='project'),
+    path('projects/', jobs.views.projects_list, name='projects_list'),
+    path('projects/<slug:slug>/', jobs.views.project_detail, name='project_detail'),
+    path('certificates/', jobs.views.certificates_list, name='certificates_list'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

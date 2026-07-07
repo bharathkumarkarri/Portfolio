@@ -24,6 +24,16 @@ else:
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load .env file manually to populate os.environ locally
+env_path = BASE_DIR / ".env"
+if env_path.exists():
+    with open(env_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, value = line.split("=", 1)
+                os.environ[key.strip()] = value.strip()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -113,7 +123,7 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 #     )
 # }
 
-if os.environ.get("RENDER"):
+if os.environ.get("RENDER") or os.environ.get("DATABASE_URL"):
     DATABASES = {
         "default": dj_database_url.config(
             default=os.environ.get("DATABASE_URL")
@@ -122,12 +132,8 @@ if os.environ.get("RENDER"):
 else:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "portfoliodb",
-            "USER": "postgres",
-            "PASSWORD": "root",
-            "HOST": "localhost",
-            "PORT": "5432",
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
@@ -163,16 +169,13 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
+STATIC_URL = "/static/"
 
-STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
-if os.environ.get("RENDER"):
-    STATIC_ROOT = BASE_DIR / "staticfiles"
-
-else:
-    STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

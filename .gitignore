@@ -1,2 +1,14 @@
 # Environment variables
 .env
+
+# Python pycache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+*.sqlite3
+
+# Local compiled assets
+staticfiles/
+media/
