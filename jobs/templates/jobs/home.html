@@ -233,7 +233,7 @@
         <div class="projects-grid" data-aos="fade-up" style="margin-top: 30px;">
           {% for job in jobs %}
           <a href="{% url 'project_detail' slug=job.slug %}"
-            class="project-card-link {% if forloop.counter > 4 %}hidden-project{% endif %}">
+            class="project-card-link {% if forloop.counter > 2 %}hidden-project{% endif %}">
             <div class="project-card glass-card">
               <div class="project-thumbnail-wrapper">
                 {% if job.image %}
@@ -270,7 +270,7 @@
           {% endfor %}
         </div>
 
-        {% if jobs|length > 4 %}
+        {% if jobs|length > 2 %}
         <div style="display: flex; justify-content: center; margin-top: 35px; width: 100%;">
           <button id="more-projects-btn" class="btn-glass-secondary" style="padding: 0.6rem 2rem; font-size: 0.9rem;">
             More Projects <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; margin-left: 4px;"></i>
