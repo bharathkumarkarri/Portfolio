@@ -126,13 +126,6 @@ class Migration(migrations.Migration):
             name='slug',
             field=models.SlugField(blank=True, max_length=250, null=True),
         ),
-        migrations.RunPython(populate_slugs),
-        migrations.AlterField(
-            model_name='job',
-            name='slug',
-            field=models.SlugField(blank=True, default='', max_length=250, unique=True),
-            preserve_default=False,
-        ),
         migrations.AddField(
             model_name='job',
             name='status',
