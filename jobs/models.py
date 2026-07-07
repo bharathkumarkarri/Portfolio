@@ -46,6 +46,7 @@ class Job(models.Model):
     status = models.CharField(max_length=50, default="Completed")
     published_date = models.CharField(max_length=50, blank=True, help_text="e.g. July 2026")
     is_featured = models.BooleanField(default=False)
+    order = models.IntegerField(default=0)
     
     link = models.URLField(blank=True)
     gitlink = models.URLField(blank=True)

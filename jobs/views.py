@@ -22,7 +22,7 @@ def homepage(request):
         profile = get_fallback_profile()
         
     resumes = Resume.objects.first()
-    jobs = Job.objects.filter(is_featured=True).order_by('-id')
+    jobs = Job.objects.filter(is_featured=True).order_by('order', '-id')
     skills = Skill.objects.all().order_by('order')
     experiences = Experience.objects.all().order_by('order')
     educations = Education.objects.all().order_by('order')
@@ -50,7 +50,7 @@ def project_detail(request, slug):
     gallery_images = project.gallery_images.all()
     
     # Calculate Prev / Next projects
-    all_projects = list(Job.objects.all().order_by('id'))
+    all_projects = list(Job.objects.all().order_by('order', '-id'))
     prev_project = None
     next_project = None
     try:
@@ -84,7 +84,7 @@ def projects_list(request):
         profile = get_fallback_profile()
         
     resumes = Resume.objects.first()
-    jobs = Job.objects.all().order_by('-id')
+    jobs = Job.objects.all().order_by('order', '-id')
     technologies = Technology.objects.all()
 
     context = {

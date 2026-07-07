@@ -8,7 +8,8 @@ class ProjectImageInline(admin.TabularInline):
 
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
-    list_display = ('title', 'status', 'published_date', 'is_featured')
+    list_display = ('title', 'status', 'published_date', 'is_featured', 'order')
+    list_editable = ('order',)
     search_fields = ('title', 'summary', 'short_description')
     list_filter = ('status', 'is_featured')
     prepopulated_fields = {'slug': ('title',)}

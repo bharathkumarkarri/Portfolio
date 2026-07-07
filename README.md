@@ -1,101 +1,120 @@
-# 🌟 Dynamic Django Portfolio Web Application
+# ☕ Caramel Macchiato Developer Portfolio
+> A Premium, Warm Artisan Minimalist Portfolio built on Django & Vanilla CSS.
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.13+-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python Version" />
-  <img src="https://img.shields.io/badge/Django-6.0-green?style=for-the-badge&logo=django&logoColor=white" alt="Django Version" />
-  <img src="https://img.shields.io/badge/Cloudinary-Cloud%20Hosting-lightgrey?style=for-the-badge&logo=cloudinary&logoColor=blue" alt="Cloudinary" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License" />
+  <a href="https://github.com/bharathkumarkarri/Portfolio"><img src="https://img.shields.io/badge/Python-3.13%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python version" /></a>
+  <a href="https://www.djangoproject.com/"><img src="https://img.shields.io/badge/Django-6.0-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django version" /></a>
+  <a href="https://cloudinary.com/"><img src="https://img.shields.io/badge/Cloudinary-Asset%20CDN-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white" alt="Cloudinary" /></a>
+  <a href="https://render.com/"><img src="https://img.shields.io/badge/Render-Deploy%20Ready-46E3B7?style=for-the-badge&logo=render&logoColor=black" alt="Render" /></a>
 </p>
 
-A premium, modern, and highly responsive portfolio application built using **Python, Django, and Bootstrap**. Designed with beautiful glassmorphism gradients, clean typography, interactive hover cards, and micro-animations to highlight your professional software development achievements.
+---
+
+## 📖 Table of Contents
+1. [✨ Core Features](#-core-features)
+2. [🎨 Design Tokens & Aesthetic System](#-design-tokens--aesthetic-system)
+3. [🏗️ System Architecture](#️-system-architecture)
+4. [🛠️ Technical Tech Stack](#️-technical-tech-stack)
+5. [📂 Directory structure](#-directory-structure)
+6. [💻 Local Development Setup](#-local-development-setup)
+7. [⚙️ Cloudinary Asset Integration](#️-cloudinary-asset-integration)
+8. [🔧 Custom Admin Order Controls](#-custom-admin-order-controls)
+9. [☁️ Production Deployment on Render](#️-production-deployment-on-render)
+10. [📄 License & Contact](#-license--contact)
 
 ---
 
-## 🚀 Key Features
+## ✨ Core Features
 
-* **💼 Project Showcase**: Dynamic rendering of portfolio projects with detail pages, live demos, and GitHub repository links.
-* **📄 Resume Management**: Streamlined resume file upload, download, and auto-cleanup mechanism when new versions are uploaded.
-* **☁️ Cloudinary Storage Integration**: Real-time asset hosting for both job/project images and raw document storage (PDF resumes).
-* **🛠️ Automated Database Clean-up**: Override save triggers on Django models prevent orphaned files on Cloudinary when records are updated/deleted.
-* **📱 Responsive Glassmorphic UI**: Fluid web layout powered by Bootstrap, featuring custom CSS variables, gradient text, and radial background glow blobs.
-* **⚡ Production Ready**: Complete with a `build.sh` pipeline, PostgreSQL config, and Whitenoise static file handling for seamless deployment on platforms like Render.
+* **💼 Tailored Showcases**: Showcase engineering projects with dedicated details subpages, live application anchors, and GitHub codebase links.
+* **🔢 User-Controlled Ordering**: Set custom sorting orders directly from the Django admin list views for your projects, skills, education, experience, and certificates.
+* **📄 Integrated Document Storage**: Built-in PDF resume uploading, serving, and automated cleanups (automatically deletes old versions on overwrite to avoid cloud storage bloat).
+* **✉️ Frictionless Contact Panel**: Direct "Get in Touch" panel that redirects user inquiries directly to your mailbox with pre-formatted subjects.
+* **⚡ Glassmorphic Navigation**: A sticky header bar utilizing `backdrop-filter` blur transitions, interactive hover badges, and responsive sidebar menus on mobile.
+* **☁️ Production Database Safety**: Resolves deferred index collision bugs on PostgreSQL by isolating fields and indexing in isolated, sequential database migration steps.
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 🎨 Design Tokens & Aesthetic System
 
-| Component | Technology | Description |
+The interface uses a custom-tailored **Warm Artisan Minimalism** (Caramel Macchiato) color palette and font system, designed to look extremely premium.
+
+### Color System
+| Variable | Value | Concept |
 | :--- | :--- | :--- |
-| **Backend Framework** | Django 6.0 | Modern Python MVC framework for secure & scalable logic. |
-| **Styling & Icons** | Bootstrap 5.3 + Bootstrap Icons | Elegant responsive layout & modern components. |
-| **Media Storage** | Cloudinary | Asset delivery network for optimized image & file serving. |
-| **Static Files** | Whitenoise | Middleware for serving static files efficiently in production. |
-| **Database** | SQLite (Dev) / PostgreSQL (Prod) | Robust transactional database engines. |
-| **Deployment** | Render Bash Pipeline | Auto-builds, applies migrations, and collects static resources. |
+| `--bg-base` | `#faf8f5` | Creamy warm ivory latte background |
+| `--bg-surface` | `rgba(255, 255, 255, 0.72)` | Translucent white frosting |
+| `--text-primary` | `#2c1b11` | Roasted Espresso (high-contrast text) |
+| `--text-secondary` | `#5c473c` | Cinnamon Cocoa (secondary headers) |
+| `--primary` | `#8d6e63` | Caramel Chocolate (accents & branding) |
+| `--accent` | `#d4a373` | Honey Amber gradient glows |
+
+### Typographical Settings
+- **Headings**: Elegant serif `Playfair Display`
+- **Body & Elements**: Clean, geometric sans-serif `Inter`
 
 ---
 
-## 📂 Project Structure
+## 🏗️ System Architecture
+
+<p align="center">
+  <img src="static/architecture_diagram.png" alt="System Architecture Diagram" width="700" />
+</p>
+
+---
+
+## 🛠️ Technical Tech Stack
+
+- **Backend Logic**: Django 6.0 (MTV architectural pattern)
+- **Styling Design**: Custom Vanilla CSS (no heavy utility libraries, maintaining 100% style customizability)
+- **Asset CDN Handling**: Cloudinary (SDK integration via `django-cloudinary-storage`)
+- **Static Assets Delivery**: WhiteNoise (compresses and caches static resources in production)
+- **Database Engine**: PostgreSQL (Render Web Database) / SQLite (Local testing)
+- **WSGI Server**: Gunicorn
+
+---
+
+## 📂 Directory Structure
 
 ```
 portfolio/
 │
-├── jobs/                       # Core App for projects & resumes
-│   ├── migrations/             # Database schema migrations
-│   ├── templates/jobs/         # HTML Templates (home.html, project.html)
-│   ├── admin.py                # Admin dashboard configurations
-│   ├── models.py               # Models for Job, Resume, and Technology
-│   └── views.py                # Route controller actions
+├── jobs/                       # Portfolio Core Application
+│   ├── migrations/             # Safe database scheme migrations
+│   ├── templates/jobs/         # HTML structure files
+│   │   ├── home.html           # Main portfolio landing template
+│   │   ├── project.html        # Detailed single-project template
+│   │   ├── projects_list.html  # All-projects catalog page
+│   │   └── certificates_list.html  # Certificates collection page
+│   ├── admin.py                # Admin dashboard configurations (inline lists)
+│   ├── models.py               # Core ORM structures (Job, Profile, etc.)
+│   └── views.py                # Business queries & view routes
 │
-├── portfolio/                  # Main Project Settings
-│   ├── settings.py             # App configurations, middleware & secrets
-│   ├── urls.py                 # Core routing configuration
-│   └── wsgi.py                 # WSGI entry point
+├── portfolio/                  # Configuration Module
+│   ├── settings.py             # Global setup, keys, and middleware
+│   └── urls.py                 # Main URL routing dictionary
 │
-├── static/                     # Global static stylesheet assets
-├── build.sh                    # Automation shell script for deployments
-├── db.sqlite3                  # Local development database
-├── requirements.txt            # Project dependencies list
-└── manage.py                   # Django CLI executable
+├── static/                     # Global CSS and images
+├── build.sh                    # Automation builder script for Render web service
+└── requirements.txt            # Python dependencies requirements file
 ```
-
----
-
-## ⚙️ Storage Configuration (Cloudinary)
-
-The media storage is optimized to save all media files dynamically to Cloudinary:
-* **Project Images**: Handled using `CloudinaryField` from the `cloudinary` SDK.
-* **Resume Files (PDF)**: Managed via Django's `FileField` combined with `RawMediaCloudinaryStorage`.
-
-### Cloudinary Credentials
-
-Ensure you set the following environment variables in your deployment shell or system environment:
-
-```env
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-```
-
-> [!NOTE]
-> In local development, if environment variables are not found, the configuration falls back gracefully to a `"dummy"` namespace to prevent site rendering crashes.
 
 ---
 
 ## 💻 Local Development Setup
 
-To run the application locally on your machine, follow these steps:
+Follow these steps to run the application on your computer:
 
-### 1. Clone the Repository & Navigate in:
+### 1. Clone the Project & Navigate in:
 ```bash
 git clone https://github.com/bharathkumarkarri/Portfolio.git
 cd Portfolio
 ```
 
-### 2. Set Up a Virtual Environment & Activate:
+### 2. Set Up a Virtual Environment:
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 ```
 
 ### 3. Install Dependencies:
@@ -103,65 +122,73 @@ source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
 pip install -r requirements.txt
 ```
 
-### 4. Apply Database Migrations:
+### 4. Create local migrations and apply:
 ```bash
+python3 manage.py makemigrations
 python3 manage.py migrate
 ```
 
-### 5. Create a Superuser (for Admin Dashboard Access):
+### 5. Create a Superuser:
 ```bash
 python3 manage.py createsuperuser
 ```
 
-### 6. Run the Local Server:
+### 6. Boot Up the Development Server:
 ```bash
 python3 manage.py runserver
 ```
-Visit the application at: `http://127.0.0.1:8000/`
+Navigate to: `http://127.0.0.1:8000/`
 
 ---
 
-## ☁️ Deployment Guide (Render)
+## ⚙️ Cloudinary Asset Integration
 
-This project contains a pre-configured `build.sh` script specifically crafted for platform hosts like **Render**.
+To serve dynamic uploads (project images, PDF resumes) over CDN, register a free Cloudinary account and set these environment variables locally or in your deployment:
 
-### Setup on Render:
-1. Create a new **Web Service** on Render connected to your repository.
-2. In the **Environment Settings**, specify the Python Environment version.
-3. Add the following **Environment Variables**:
-   * `SECRET_KEY`: A production-ready Django secret key.
-   * `RENDER`: `True`
-   * `DATABASE_URL`: PostgreSQL connection string.
-   * `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET`
-4. Set the **Build Command** to:
-   ```bash
-   ./build.sh
-   ```
-5. Set the **Start Command** to:
-   ```bash
-   gunicorn portfolio.wsgi:application
-   ```
+```env
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+> [!TIP]
+> In local development, the codebase gracefully overrides connection warnings with dummy credentials if they are absent, allowing local preview without configuring cloud setups.
 
 ---
 
-## 🎨 UI & Aesthetics Details
-* **Typography**: Sleek Google Font `Plus Jakarta Sans` for clean, professional readability.
-* **Gradients**: Vibrant linear warm accent gradients (`#8d6e63` to `#ddb892`) used on primary actions and highlight elements.
-* **Glassmorphism**: Backdrop blur filtering (`12px`) applied on fixed top navigation header for an ultra-premium layout feel.
-* **Micro-animations**: Subtle translation transitions (`translateY(-8px)`) and scaling (`scale(1.08)`) on card hovers to build responsive interaction.
-* **Dark Mode accents**: Classic `#080b12` footer background to ground the visual design.
+## 🔧 Custom Admin Order Controls
+
+You can easily reorder items displayed on the homepage directly within the Django admin:
+
+1. Visit the admin dashboard at `http://127.0.0.1:8000/admin`.
+2. Under the relevant section (e.g. **Jobs**, **Skills**, **Experiences**, **Certificates**), you will see an **Order** column.
+3. Edit the numbers directly in the list (e.g. set `0` for top item, `1` for second, `2` for third...) and click **Save** at the bottom.
+4. The site will immediately update to reflect your defined ordering sequence.
 
 ---
 
-## 📄 License
+## ☁️ Production Deployment on Render
 
-Distributed under the MIT License. See the [LICENSE](file:///Users/pavan/Documents/portfolio/LICENSE) file for more details.
+This repository is optimized for deployment as a **Web Service** on **Render**.
+
+### Configurations Checklist:
+1. Link your GitHub repository to your Render panel.
+2. In the **Environment Variables** panel, add:
+   - `SECRET_KEY` (production key string)
+   - `RENDER` = `True`
+   - `DATABASE_URL` (PostgreSQL connection string)
+   - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+3. Configure the following build directives:
+   - **Build Command**: `./build.sh`
+   - **Start Command**: `gunicorn portfolio.wsgi:application`
 
 ---
 
-## ✉️ Contact & Developer Info
+## 📄 License & Contact
 
-* **Developer**: Karri Bharath Kumar
-* **LinkedIn**: [@bharath-kumar-karri](https://www.linkedin.com/in/bharath-kumar-karri/)
-* **GitHub**: [@bharathkumarkarri](https://github.com/bharathkumarkarri)
-* **Email**: [bharath.karri23@gmail.com](mailto:bharath.karri23@gmail.com)
+Distributed under the MIT License. See [LICENSE](file:///Users/pavan/Documents/portfolio/LICENSE) for more details.
+
+- **Developer**: Karri Bharath Kumar
+- **LinkedIn**: [@bharath-kumar-karri](https://www.linkedin.com/in/bharath-kumar-karri/)
+- **GitHub**: [@bharathkumarkarri](https://github.com/bharathkumarkarri)
+- **Email**: [bharath.karri23@gmail.com](mailto:bharath.karri23@gmail.com)
