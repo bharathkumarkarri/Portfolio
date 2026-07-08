@@ -66,40 +66,49 @@
         <div class="container project-detail-wrapper" style="margin-bottom: 60px;">
             
             <!-- Project Hero Banner -->
-            {% if project.image %}
-            <section class="project-hero glass-card" style="background-image: linear-gradient(rgba(43, 29, 22, 0.85), rgba(43, 29, 22, 0.95)), url('{{ project.image.url }}'); padding: 60px 40px;">
-            {% else %}
-            <section class="project-hero glass-card" style="background-image: linear-gradient(rgba(43, 29, 22, 0.85), rgba(43, 29, 22, 0.95)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop'); padding: 60px 40px;">
-            {% endif %}
-                <div class="project-hero-container">
-                    <div class="project-hero-header">
-                        <span class="project-hero-category">{{ project.title }}</span>
-                        {% if project.is_featured %}
-                        <span class="project-hero-featured"><i class="fa-solid fa-star"></i> Featured Project</span>
-                        {% endif %}
-                    </div>
-                    
-                    <h1 class="project-hero-title">{{ project.title }}</h1>
-                    
-                    {% if project.short_description %}
-                    <p class="project-hero-short-desc">{{ project.short_description }}</p>
-                    {% else %}
-                    <p class="project-hero-short-desc">{{ project.summary }}</p>
-                    {% endif %}
-                    
-                    <!-- Quick Actions Buttons -->
-                    <div class="project-hero-actions">
-                        {% if project.link %}
-                        <a href="{{ project.link }}" target="_blank" class="hero-action-btn live-btn">
-                            <i class="fa-solid fa-laptop"></i> Live Demo
-                        </a>
+            <section class="project-hero glass-card project-hero-coffee-theme">
+                <div class="project-hero-grid">
+                    <div class="project-hero-content">
+                        <div class="project-hero-header">
+                            <span class="project-hero-category">Project Details</span>
+                            {% if project.is_featured %}
+                            <span class="project-hero-featured"><i class="fa-solid fa-star"></i> Featured Project</span>
+                            {% endif %}
+                        </div>
+                        
+                        <h1 class="project-hero-title">{{ project.title }}</h1>
+                        
+                        {% if project.short_description %}
+                        <p class="project-hero-short-desc">{{ project.short_description }}</p>
+                        {% else %}
+                        <p class="project-hero-short-desc">{{ project.summary }}</p>
                         {% endif %}
                         
-                        {% if project.gitlink %}
-                        <a href="{{ project.gitlink }}" target="_blank" class="hero-action-btn github-btn">
-                            <i class="fa-brands fa-github"></i> View Code
-                        </a>
-                        {% endif %}
+                        <!-- Quick Actions Buttons -->
+                        <div class="project-hero-actions">
+                            {% if project.link %}
+                            <a href="{{ project.link }}" target="_blank" class="hero-action-btn live-btn">
+                                <i class="fa-solid fa-laptop"></i> Live Demo
+                            </a>
+                            {% endif %}
+                            
+                            {% if project.gitlink %}
+                            <a href="{{ project.gitlink }}" target="_blank" class="hero-action-btn github-btn">
+                                <i class="fa-brands fa-github"></i> View Code
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Project Hero Right Side (Featured Image) -->
+                    <div class="project-hero-image-pane">
+                        <div class="project-hero-img-wrapper">
+                            {% if project.image %}
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-hero-img">
+                            {% else %}
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop" alt="{{ project.title }}" class="project-hero-img">
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </section>

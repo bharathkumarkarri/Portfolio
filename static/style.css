@@ -3,7 +3,7 @@
    ========================================================================== */
 
 /* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 :root {
   /* Premium Coffee Palette (Caramel Macchiato) */
@@ -41,8 +41,8 @@
   /* Soft paper shadow */
   --shadow-glow: 0 0 20px rgba(166, 124, 82, 0.07);
 
-  --font-headings: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-headings: 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
 
   --blur-amount: 12px;
   --transition-speed: 0.35s;
@@ -1666,6 +1666,94 @@ h6 {
 .hero-action-btn.github-btn:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
+}
+
+/* Coffee Theme Hero Styles */
+.project-hero-coffee-theme {
+  background-color: #faf8f5 !important;
+  background-image: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 239, 233, 0.82) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%238d6e63' fill-opacity='0.08'%3E%3Cpath d='M12,18 C15,10 24,12 22,22 C20,30 11,31 8,24 C6,19 9,21 12,18 Z' /%3E%3Cpath d='M8,24 C13,19 19,23 22,22' stroke='%238d6e63' stroke-opacity='0.1' fill='none' stroke-width='1' /%3E%3Cpath d='M42,38 C45,30 54,32 52,42 C50,50 41,51 38,44 C36,39 39,41 42,38 Z' /%3E%3Cpath d='M38,44 C43,39 49,43 52,42' stroke='%238d6e63' stroke-opacity='0.1' fill='none' stroke-width='1' /%3E%3C/g%3E%3C/svg%3E") !important;
+  background-repeat: repeat !important;
+  background-size: auto !important;
+  border: 1px solid rgba(141, 110, 99, 0.15) !important;
+  padding: 50px 40px !important;
+}
+
+.project-hero-coffee-theme .project-hero-category {
+  background: rgba(141, 110, 99, 0.08) !important;
+  border: 1px solid rgba(141, 110, 99, 0.2) !important;
+  color: var(--primary) !important;
+}
+
+.project-hero-coffee-theme .project-hero-featured {
+  background: rgba(212, 163, 115, 0.15) !important;
+  border: 1px solid rgba(212, 163, 115, 0.35) !important;
+  color: #a67c52 !important;
+}
+
+.project-hero-coffee-theme .project-hero-title {
+  color: var(--text-primary) !important;
+  font-size: 2.8rem !important;
+  font-weight: 800 !important;
+}
+
+.project-hero-coffee-theme .project-hero-short-desc {
+  color: var(--text-secondary) !important;
+}
+
+.project-hero-coffee-theme .hero-action-btn.github-btn {
+  background: rgba(141, 110, 99, 0.05) !important;
+  border: 1px solid rgba(141, 110, 99, 0.25) !important;
+  color: var(--text-primary) !important;
+}
+
+.project-hero-coffee-theme .hero-action-btn.github-btn:hover {
+  background: rgba(141, 110, 99, 0.12) !important;
+  color: var(--text-primary) !important;
+}
+
+/* 2-column grid layout */
+.project-hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (max-width: 991px) {
+  .project-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+/* Image Pane Styling */
+.project-hero-image-pane {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-hero-img-wrapper {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(44, 27, 17, 0.12);
+  border: 4px solid #fff;
+  transition: transform var(--transition-speed) ease;
+}
+
+.project-hero-img-wrapper:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.project-hero-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
 }
 
 /* Detail Main Grid */
