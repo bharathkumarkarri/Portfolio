@@ -76,12 +76,9 @@
       <div class="container hero-grid">
         <!-- Left Side: Profile Intro -->
         <div class="hero-left" data-aos="fade-right" data-aos-delay="100">
-          <div class="hero-greeting"
-            style="font-family: var(--font-headings); font-style: italic; text-transform: none; letter-spacing: 0.5px; font-weight: 500; font-size: 1.65rem; color: var(--primary-light);">
-            {{ profile.greeting }}</div>
+          <div class="hero-greeting">{{ profile.greeting }}</div>
 
-          <h1 class="hero-name"
-            style="font-family: var(--font-headings); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 20px;">{{ profile.name }}</h1>
+          <h1 class="hero-name">{{ profile.name }}</h1>
 
           <div class="hero-profession-wrapper">
             <span id="typing-text" data-professions="{{ profile.titles }}"></span>
