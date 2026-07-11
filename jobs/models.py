@@ -51,6 +51,62 @@ class Job(models.Model):
     link = models.URLField(blank=True)
     gitlink = models.URLField(blank=True)
 
+    @property
+    def features_list(self):
+        return self._parse_points(self.features, split_on_comma=True)
+
+    @property
+    def challenges_list(self):
+        return self._parse_points(self.challenges, split_on_comma=False)
+
+    def _parse_points(self, text, split_on_comma=False):
+        if not text:
+            return []
+        import re
+        
+        # Helper to strip HTML tags
+        def strip_tags(html):
+            cleaned = re.sub(r'<[^>]+>', '', html)
+            return cleaned.strip()
+
+        # Check if it contains HTML
+        if bool(re.search(r'<[^>]+>', text)):
+            # It has HTML. Let's try to extract heading-paragraph pairs:
+            pairs = re.findall(r'<h[1-6][^>]*>(.*?)</h[1-6]>\s*<p[^>]*>(.*?)</p>', text, re.DOTALL | re.IGNORECASE)
+            if pairs:
+                return [f"<strong>{strip_tags(h)}</strong>: {strip_tags(p)}" for h, p in pairs]
+            
+            # If it contains HTML but not heading-paragraph pairs, let's see if there are list items:
+            lis = re.findall(r'<li[^>]*>(.*?)</li>', text, re.DOTALL | re.IGNORECASE)
+            if lis:
+                return [strip_tags(li) for li in lis]
+                
+            # If it's just paragraphs, treat each paragraph as an item:
+            ps = re.findall(r'<p[^>]*>(.*?)</p>', text, re.DOTALL | re.IGNORECASE)
+            if ps:
+                return [strip_tags(p) for p in ps]
+            
+            # Fallback if other HTML
+            return [strip_tags(text)]
+
+        # Split by newlines first
+        lines = [line.strip() for line in text.split('\n') if line.strip()]
+        if len(lines) > 1:
+            raw_items = lines
+        elif split_on_comma:
+            # Split by commas
+            raw_items = [item.strip() for item in text.split(',') if item.strip()]
+        else:
+            raw_items = [text.strip()]
+            
+        cleaned_items = []
+        for item in raw_items:
+            # Strip leading bullet/list symbols
+            cleaned = re.sub(r'^(?:[•\-\*\+\u2022\u2023\u25E6\u2043\u204F]|\d+[\.\-\)]\s*)\s*', '', item).strip()
+            if cleaned:
+                cleaned_items.append(cleaned)
+        return cleaned_items
+
     def save(self, *args, **kwargs):
         if not self.slug:
             base_slug = slugify(self.title)

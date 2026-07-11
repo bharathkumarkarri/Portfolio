@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=1.2">
 </head>
 <body>
 
@@ -134,7 +134,18 @@
                     <div class="project-section glass-card" data-aos="fade-up">
                         <h2 class="project-section-title"><i class="fa-solid fa-star"></i> Key Features</h2>
                         <div class="project-rich-content">
+                            {% if project.features_list %}
+                            <ul class="project-features-list">
+                                {% for item in project.features_list %}
+                                <li>
+                                    <span class="feature-icon-wrapper"><i class="fa-solid fa-circle-check"></i></span>
+                                    <span class="feature-text">{{ item }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
                             {{ project.features|safe }}
+                            {% endif %}
                         </div>
                     </div>
                     {% endif %}
@@ -144,7 +155,18 @@
                     <div class="project-section glass-card" data-aos="fade-up">
                         <h2 class="project-section-title"><i class="fa-solid fa-triangle-exclamation"></i> Challenges & Solutions</h2>
                         <div class="project-rich-content">
+                            {% if project.challenges_list %}
+                            <ul class="project-challenges-list">
+                                {% for item in project.challenges_list %}
+                                <li>
+                                    <span class="challenge-icon-wrapper"><i class="fa-solid fa-chevron-right"></i></span>
+                                    <span class="challenge-text">{{ item }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
                             {{ project.challenges|linebreaks }}
+                            {% endif %}
                         </div>
                     </div>
                     {% endif %}

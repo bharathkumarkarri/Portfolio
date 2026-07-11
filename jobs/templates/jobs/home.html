@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link rel="stylesheet" href="{% static 'style.css' %}?v=1.2">
 </head>
 
 <body>
@@ -158,7 +158,7 @@
             <div class="glass-card about-info-card" id="info-card-email">
               <div class="about-info-icon"><i class="fa-regular fa-envelope"></i></div>
               <div class="about-info-title">Email</div>
-              <div class="about-info-value" style="font-size: 0.85rem;">{{ profile.email }}</div>
+              <a href="mailto:{{ profile.email }}" class="about-info-value email-link" style="font-size: 0.85rem; text-decoration: none; color: inherit;">{{ profile.email }}</a>
             </div>
 
             <!-- Location Card -->
